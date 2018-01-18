@@ -92,6 +92,39 @@ public class LinkedList <E>{
         counter++;
     }
 
+    /*Method: getElem()
+      Summary: iterate through the linked list until you've reached the index specified. Return
+      that elem.
+      Param: int ind, the index you're searching for.
+     */
+
+    public E getElem(int ind){
+        temp = head;
+        for(int i = 0; i < ind; i ++){
+            temp = temp.next;
+        }
+        return temp.elem;
+    }
+
+    /*Method: getInd()
+      Summary: iterate through the linked list and get the index of a specified elem. Return that
+      index. Kind of a reverse process of getElem().
+      Param: E elem, the element whose index we're looking for.
+     */
+
+    public int getInd(E elem){
+        temp = head;
+        int ind = 0;
+        for(int i = 0; i < this.size(); i ++){
+            if(temp.elem == elem){
+                return ind;
+            } else {
+                temp = temp.next;
+                ind++;
+            }
+        }
+        return -1;
+    }
     public static void main(String[] args) {
         LinkedList<String> books = new LinkedList<String>();
         books.add("Hound of the Baskervilles");
@@ -103,5 +136,7 @@ public class LinkedList <E>{
         System.out.println(books.head.next.elem);
         System.out.println(books.head.next.next.elem);
         System.out.println(books.size());
+        System.out.println(books.getElem(2));
+        System.out.println(books.getInd("Blood, Sweat, Pixels"));
     }
 }
