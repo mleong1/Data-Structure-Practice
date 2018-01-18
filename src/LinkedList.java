@@ -1,3 +1,4 @@
+import com.sun.org.apache.xpath.internal.SourceTree;
 import sun.awt.image.ImageWatched;
 
 public class LinkedList <E>{
@@ -52,13 +53,55 @@ public class LinkedList <E>{
         counter ++;
     }
 
+    /*Method: addInd()
+      Summary: adds an element in at a specific index of the linked list.
+      param: index, the index at which the node will be added. elem, the data in the node
+     */
+
+    public void addInd(int ind, E elem){
+        //if the user wants the index added at the end simply call the previous method
+        if(ind == counter){
+            //no counter++ add does it already
+            this.add(elem);
+            return;
+        //temp is really going to ocme in handy here and in the next case
+            // holding and saving what node you're on
+        }else if(ind == 0){
+            Node<E> insNode = new Node<E>();
+            insNode.elem = elem;
+            insNode.next = head;
+            head.prev = insNode;
+            head = insNode;
+            counter ++;
+            return;
+        }
+
+        //our private temp variable for linkedlist will now hold the head so we can iterate through
+        //the list
+        temp = head;
+        for(int i = 0; i < ind - 1; i++) {
+            //we need temp to hold this place. cant just say head.next a bunch of times
+            temp = temp.next;
+        }
+        Node<E> insNode = new Node<E>();
+        insNode.elem = elem;
+        insNode.next = temp.next;
+        temp.next.prev = insNode;
+        temp.next = insNode;
+        insNode.prev = temp;
+        counter++;
+    }
+
     public static void main(String[] args) {
         LinkedList<String> books = new LinkedList<String>();
         books.add("Hound of the Baskervilles");
         books.add("The Girl with the Dragon Tattoo");
+        books.addInd(1, "Blood, Sweat, Pixels");
         //implement cycle through function this is jank
+        //System.out.println(books.head.next.next.prev.elem);
         System.out.println(books.head.elem);
         System.out.println(books.head.next.elem);
+        System.out.println(books.head.next.next.elem);
         System.out.println(books.size());
     }
 }
