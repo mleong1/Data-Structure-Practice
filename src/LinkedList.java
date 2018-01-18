@@ -60,6 +60,7 @@ public class LinkedList <E>{
 
     public void addInd(int ind, E elem){
         //if the user wants the index added at the end simply call the previous method
+        //index = counter which is next index to be filled
         if(ind == counter){
             //no counter++ add does it already
             this.add(elem);
@@ -125,6 +126,51 @@ public class LinkedList <E>{
         }
         return -1;
     }
+
+    /*Method: remove()
+      Summary: iterate through a linked list based on index and delete that node from the list.
+      This is kind of the reverse of addInd a node. We need to make the node previous to the deleted
+      node point to the node after the deleted node. Then we set the node after's previous to the node
+      before the deleted node.  We return the elem of the removed node.
+      Param: int ind, the index of the node we are removing
+     */
+
+    public E removeNode(int ind){
+
+        temp = head;
+        if(ind == 0){
+            E elem = head.elem;
+            Node<E> hold = head;
+            head = null;
+            head = hold.next;
+            //Decrement counter to reflect change in size
+            counter --;
+            return elem;
+
+        } else if (ind == this.size() - 1){
+            E elem = tail.elem;
+            Node<E> hold = tail;
+            tail = null;
+            tail = hold.prev;
+            counter --;
+            return elem;
+        }
+
+        //grab one before the node to be deleted
+        for(int i = 0; i < ind - 1; i ++){
+            temp = temp.next;
+        }
+
+        Node<E> delNode = temp.next;
+        E elem = delNode.elem;
+        //prevNode to delNode --> next set to one after delNode
+        temp.next = delNode.next;
+        delNode = null;
+        temp.next.prev = temp;
+        counter --;
+        return elem;
+    }
+
     public static void main(String[] args) {
         LinkedList<String> books = new LinkedList<String>();
         books.add("Hound of the Baskervilles");
@@ -138,5 +184,9 @@ public class LinkedList <E>{
         System.out.println(books.size());
         System.out.println(books.getElem(2));
         System.out.println(books.getInd("Blood, Sweat, Pixels"));
+        System.out.println(books.removeNode(2) + " removed");
+        System.out.println(books.head.elem);
+        System.out.println(books.head.next.elem);
+        //System.out.println(books.head.next.next.elem);
     }
 }
