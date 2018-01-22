@@ -1,5 +1,4 @@
-import com.sun.org.apache.xpath.internal.SourceTree;
-import sun.awt.image.ImageWatched;
+package LinkLists;
 
 public class LinkedList <E>{
     //private nodes that define the linkedlist. Temp will be for holding nodes
@@ -171,6 +170,10 @@ public class LinkedList <E>{
         return elem;
     }
 
+    /*We can implement stacks and queues if we add new methods for adding and removing for each
+    * respective data structure.  For instance an addStack(), which is push(), and pop() method.
+    * addStack() would add a node to the head of the list instead of the tail. pop() removes
+    * the head.  In any case, stack and queue implementations look similar to linked list.*/
     public static void main(String[] args) {
         LinkedList<String> books = new LinkedList<String>();
         books.add("Hound of the Baskervilles");
