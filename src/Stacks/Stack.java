@@ -30,6 +30,7 @@ public class Stack<T> {
         StackNode<T> newTop = new StackNode(data);
         if(top == null) {
             top = newTop;
+
         } else{
             newTop.next = top;
             top = newTop;
