@@ -32,16 +32,72 @@ public class HashTable {
             hashTable[Integer.parseInt(addElem)] = addElem;
         }
     }
+    /*Method: mediumHashFunction()
+      Summary: this is the same function as easyHashFunction except we use the mod function on each parsed
+      int. That is the entry's index in our hashtable now.
+      Params: String[] arrToAdd, String[] hashTable, the array of elements to add and the hashtable
+      to add them to.
+     */
+    public void mediumHashFunction(String[] arrToAdd, String[] hashTable){
+        for(int i = 0; i < arrToAdd.length; i ++){
+            String addElem = arrToAdd[i];
+            //parse the string element to an int. then modulo that int and thats the hashtable index
+            int addElemInd = Integer.parseInt(addElem) % (this.arraySize - 1);
+            //what if we have the entries 30 and 60? no remainder means same index which means a collision
+            //we have to handle
+            while(hashTable[addElemInd] != "-1"){
+                //something is in this hashTable index
+                //just go to the next index until you get -1 or an empty element
+                addElemInd ++;
+                addElemInd %= (arraySize - 1);
+
+            }
+            hashTable[addElemInd] = addElem;
+        }
+    }
 
     public static void main(String[] args) {
         //create a hashtable, or essentially an array, of length 30 with -1 in each index
         HashTable hT = new HashTable(30);
         String[] ind = {"1", "5", "10", "25"};
-        hT.easyHashFunction(ind, hT.hashArray);
+        String[] ind2 = {"100", "234", "476", "201", "356", "425",
+                         "21", "436", "721", "30"};
+        //hT.easyHashFunction(ind, hT.hashArray);
+        hT.mediumHashFunction(ind2, hT.hashArray);
         System.out.println(hT.hashArray[0]);
-        System.out.println(hT.hashArray[5]);
-        System.out.println(hT.hashArray[10]);
-        System.out.println(hT.hashArray[25]);
+        System.out.println(hT.hashArray[1]);
+        System.out.println(hT.hashArray[2]);
+        System.out.println(hT.hashArray[3]);
         System.out.println(hT.hashArray[4]);
+        System.out.println(hT.hashArray[5]);
+        System.out.println(hT.hashArray[6]);
+        System.out.println(hT.hashArray[7]);
+        System.out.println(hT.hashArray[8]);
+        System.out.println(hT.hashArray[9]);
+        System.out.println(hT.hashArray[10]);
+        System.out.println(hT.hashArray[11]);
+        System.out.println(hT.hashArray[12]);
+        System.out.println(hT.hashArray[13]);
+        System.out.println(hT.hashArray[14]);
+        System.out.println(hT.hashArray[15]);
+        System.out.println(hT.hashArray[16]);
+        System.out.println(hT.hashArray[17]);
+        System.out.println(hT.hashArray[18]);
+        System.out.println(hT.hashArray[19]);
+        System.out.println(hT.hashArray[20]);
+        System.out.println(hT.hashArray[21]);
+        System.out.println(hT.hashArray[22]);
+        System.out.println(hT.hashArray[23]);
+        System.out.println(hT.hashArray[24]);
+        System.out.println(hT.hashArray[25]);
+        System.out.println(hT.hashArray[26]);
+        System.out.println(hT.hashArray[27]);
+        System.out.println(hT.hashArray[28]);
+        System.out.println(hT.hashArray[29]);
+        System.out.println(100 % 29);
+        System.out.println(234 % 29);
+        System.out.println(436 % 29);
+        System.out.println(30 % 29);
+        
     }
 }
