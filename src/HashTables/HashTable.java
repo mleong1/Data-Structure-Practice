@@ -45,7 +45,7 @@ public class HashTable {
             int addElemInd = Integer.parseInt(addElem) % (this.arraySize - 1);
             //what if we have the entries 30 and 60? no remainder means same index which means a collision
             //we have to handle
-            while(hashTable[addElemInd] != "-1"){
+            while(!hashTable[addElemInd].equals("-1")){
                 //something is in this hashTable index
                 //just go to the next index until you get -1 or an empty element
                 addElemInd ++;
@@ -54,6 +54,18 @@ public class HashTable {
             }
             hashTable[addElemInd] = addElem;
         }
+    }
+
+    /*Method: findKey()
+      Summary: given a string key, search the hashTable for the key and return the value.  simply
+      do the hashfunction calculation on the key to find the index in the table.
+      Param: String key, the key we are searching for.
+     */
+    public String findKey(String key){
+        int hashTableInd = Integer.parseInt(key) % 29;
+        //its simply not enough to return the element inside the hashTableInd we calculated, because we haven't
+        //accounted for collisions.
+        return this.hashArray[hashTableInd];
     }
 
     public static void main(String[] args) {
@@ -98,6 +110,7 @@ public class HashTable {
         System.out.println(234 % 29);
         System.out.println(436 % 29);
         System.out.println(30 % 29);
-        
+        System.out.println(hT.findKey("30"));
+
     }
 }
