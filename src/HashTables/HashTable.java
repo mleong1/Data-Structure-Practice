@@ -45,10 +45,44 @@ public class HashTable {
             int addElemInd = Integer.parseInt(addElem) % (this.arraySize - 1);
             //what if we have the entries 30 and 60? no remainder means same index which means a collision
             //we have to handle
+
+            //this method causes clustering. whenever we hit the same index in the hashtable we place the
+            //entry in the next slot. this causes the previous slot and the next to be filled and so on
+            //causing a clustering of values.
             while(!hashTable[addElemInd].equals("-1")){
                 //something is in this hashTable index
                 //just go to the next index until you get -1 or an empty element
                 addElemInd ++;
+                addElemInd %= (arraySize - 1);
+
+            }
+            hashTable[addElemInd] = addElem;
+        }
+    }
+
+    /*Method: doubleHashFunction()
+      Summary: this is the same function as easyHashFunction except we use the mod function on each parsed
+      int. That is the entry's index in our hashtable now. only difference between this and medium is that
+      collisions are handled by changing the step distance of where we should try and house the entry if its
+      index is filled in the hashtable.  Need a different find method because the hashfunction changed.
+      Params: String[] arrToAdd, String[] hashTable, the array of elements to add and the hashtable
+      to add them to.
+     */
+    public void doubleHashFunction(String[] arrToAdd, String[] hashTable){
+        for(int i = 0; i < arrToAdd.length; i ++){
+            String addElem = arrToAdd[i];
+            //parse the string element to an int. then modulo that int and thats the hashtable index
+            int addElemInd = Integer.parseInt(addElem) % (this.arraySize - 1);
+            //what if we have the entries 30 and 60? no remainder means same index which means a collision
+            //we have to handle
+
+            //another layer to protect against clustering
+            int stepDis = 7 - (Integer.parseInt(addElem)) % 7;
+
+            while(!hashTable[addElemInd].equals("-1")){
+                //something is in this hashTable index
+                //just go to the next index until you get -1 or an empty element
+                addElemInd += stepDis;
                 addElemInd %= (arraySize - 1);
 
             }
@@ -70,6 +104,9 @@ public class HashTable {
 
     public static void main(String[] args) {
         //create a hashtable, or essentially an array, of length 30 with -1 in each index
+        /*ITS IMPORTANT to use prime numbers in hash table function modulus for the size of your array.
+          Numbers like 30 follow patterns that prime numbers are less likely to follow.
+         */
         HashTable hT = new HashTable(30);
         String[] ind = {"1", "5", "10", "25"};
         String[] ind2 = {"100", "234", "476", "201", "356", "425",
@@ -110,6 +147,7 @@ public class HashTable {
         System.out.println(234 % 29);
         System.out.println(436 % 29);
         System.out.println(30 % 29);
+        //Todo findkey is bugged right now. Its partially that keys and indexes are all numbersH
         System.out.println(hT.findKey("30"));
 
     }
