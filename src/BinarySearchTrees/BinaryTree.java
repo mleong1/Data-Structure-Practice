@@ -45,4 +45,57 @@ public class BinaryTree {
             }
         }
     }
+
+    /*method: inOrderTraversal();
+      summary: take the root then keep going down the tree by the leftChild.  once you hit a null when you've
+      gone one leftChild too far, execute the print statement of the last leftChild. then go to the last leftChild's
+      rightChild. then do the whole process all over again going down the tree by leftChild. Rinse and repeat.
+      param: TreeNode root, needs a root to start at and to continue the recursive process.
+     */
+    public void inOrderTraversal(TreeNode root){
+        if (root != null) {
+            inOrderTraversal(root.leftChild);
+            System.out.println(root.key);
+            inOrderTraversal(root.rightChild);
+        }
+    }
+
+    /*method: preOrderTraversal()
+      summary: visits the parent node before the children. first prints out the root.
+      param: TreeNode root, needs a root to start at and to continue the recursive process.
+     */
+    public void preOrderTraversal(TreeNode root){
+        if(root != null){
+            System.out.println(root.key);
+            preOrderTraversal(root.leftChild);
+            preOrderTraversal(root.rightChild);
+        }
+    }
+
+    /*method: postOrderTraversal()
+      summary: visits the children node(s) before the parent.
+      TreeNode root, needs a root to start at and to continue the recursive process.
+     */
+    public void postOrderTraversal(TreeNode root){
+        if(root != null){
+            postOrderTraversal(root.leftChild);
+            postOrderTraversal(root.rightChild);
+            System.out.println(root.key);
+        }
+    }
+    public static void main(String[] args) {
+        BinaryTree bT = new BinaryTree();
+        bT.addNode(15, "whatver");
+        bT.addNode(10, "whatver");
+        bT.addNode(50, "whatver");
+        bT.addNode(40, "whatver");
+        bT.addNode(1, "whatver");
+        bT.addNode(5, "whatver");
+
+        bT.inOrderTraversal(bT.root);
+        System.out.println(" ");
+        bT.preOrderTraversal(bT.root);
+        System.out.println(" ");
+        bT.postOrderTraversal(bT.root);
+    }
 }
