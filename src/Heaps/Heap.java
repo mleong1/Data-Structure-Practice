@@ -127,6 +127,11 @@ public class Heap {
         heapifyUp();
     }
 
+    /*method: heapifyUp()
+      summary: the method that enforces the structure of the heap. starts at the last index. if it has a parent and
+      tne parent's value is greater than the value in the last index, swap the two to preserve the minimum heap property.
+      if that happens index changes to parent's index to follow the value up the tree in the while loop.
+     */
     public void heapifyUp() {
         //get the index of the last item in the array
         int index = size - 1;
@@ -138,6 +143,14 @@ public class Heap {
         }
     }
 
+    /*method: heapifyDown
+      summary: another method to enforce the min heap structure when the min is extracted. index starts at the
+      root (0) index which is now a dupe of the last index. while it has a left child, set that child's value as
+      the lesser of the index's children. if it has a right, compare that to the left's value, and if the right's value
+      is lesser, it becomes the smaller of the children. if the smallest child's value is less than the index's value
+      swap the two. change index to the value of the smallest child's index to follow the index down the tree through
+      the while loop.
+     */
     public void heapifyDown(){
         //so here we have extracted min and replaced it with the rightmost element in the final row of the tree
         int index = 0;
