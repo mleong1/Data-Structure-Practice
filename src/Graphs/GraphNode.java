@@ -12,6 +12,7 @@ public class GraphNode {
     //have this node in its adjacency list as well since we are working with directed graphs.
     public ArrayList<GraphNode>children = new ArrayList<GraphNode>();
     public boolean visited = false;
+    public boolean qMarked = false;
 
 
 }
