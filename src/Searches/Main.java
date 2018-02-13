@@ -8,29 +8,45 @@ public class Main {
       for. method is static so we don't need an instance of a class to use the method.
      */
     public static int binarySearch(int[] array, int value){
-        int low = 0;
+        int beg = 0;
         //get index of last int in array
-        int high = array.length - 1;
+        int end = array.length - 1;
         int mid;
 
-        while(low <= high) {
-            mid = (low + high) / 2;
-            System.out.println(mid);
-            //if value is less we want to check the low to mid side of array
-            if (value < array[mid]) {
-                high = mid;
-                //if value is greater we want to check the mid to low side of array
-            } else if (value > array[mid]) {
-                low = mid;
-                //otherwise we found it
-            } else {
+        while(beg <= end){
+            mid = (beg + end) / 2;
+            if(array[mid] == value){
                 return mid;
+                //if the middle value is less than search value, search value is in the right sub array
+            } else if(array[mid] < value){
+                beg = mid + 1;
+            } else if(array[mid] > value){
+                end = mid - 1;
             }
         }
         return -1;
     }
+
+    public static int recBinarySearch(int[] array, int value, int beg, int end){
+
+        //base case
+        if(beg > end) {
+            return -1;
+        }
+        int mid = (beg + end) / 2;
+
+        if (array[mid] < value){
+            return recBinarySearch(array, value, mid + 1, end);
+        } else if (array[mid] > value){
+            return recBinarySearch(array, value, beg, mid -1);
+        } else {
+            return mid;
+        }
+    }
+
     public static void main(String[] args) {
         int[] a = {1,2,3,4,5,6};
-        binarySearch(a, 4);
+        System.out.println(binarySearch(a, 5));
+        System.out.println(recBinarySearch(a, 17, 0, a.length-1));
     }
 }
