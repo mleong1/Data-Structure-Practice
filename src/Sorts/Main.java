@@ -117,11 +117,49 @@ public class Main {
         System.arraycopy(temp, beg, array, beg, size);
     }
 
+    public static void quickSort(int[] array){
+        quickSort(array, 0, array.length-1);
+    }
+
+    public static void quickSort(int[] array, int beg, int end){
+        if(beg >= end){
+            return;
+        }
+        //this is the part where you pick a pivot NOTE pivot is the actual value in the index
+        //beg + end is necessary because of when you calc pivot with smaller subarrays
+        int pivot = array[(beg + end)/2];
+        //partition method comes in here. should return an index that divides the initial array into subarrays (left and right)
+        //partition array around this pivot
+        int index = partition(array, beg, end, pivot);
+        quickSort(array, beg, index - 1);
+        quickSort(array, index, end);
+    }
+
+    public static int partition(int[] array, int beg, int end, int pivot){
+        //while beg value pointer is less than or equal to the end value pointer
+        while(beg <= end) {
+            while (array[beg] < pivot) {
+                beg ++;
+            }
+            while (array[end] > pivot){
+                //minus minus because you're moving inwards to the beginning of the array
+                end --;
+            }
+            if(beg <= end){
+                swap(array, beg, end);
+                beg ++;
+                end --;
+            }
+        }
+        //need to return the partition point. what is it?
+        //it is where the beg pointer currently is
+        return beg;
+    }
 
     public static void main(String[] args) {
 
         int[] a = {8, 7, 4, 5, 2, 6, 1};
-        selectionSort(a);
+        quickSort(a);
         System.out.println(a[0]);
         System.out.println(a[1]);
         System.out.println(a[2]);
