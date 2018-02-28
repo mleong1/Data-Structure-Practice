@@ -55,6 +55,69 @@ public class Main {
         }
     }
 
+    public static void mergeSort(int[] array){
+        //recursive solution. sort the left half, sort the right half, merge those halves
+        //this is just a helper method to get params right for the eventual recursive call
+        mergeSort(array, new int[array.length], 0, array.length - 1);
+    }
+
+    public static void mergeSort(int[]array, int[] temp, int beg, int end){
+        if(beg >= end){
+            return;
+        }
+        int middle = (beg + end) / 2;
+        //recursive call for the left side
+        mergeSort(array, temp, beg, middle);
+        //recursive call for the right side
+        mergeSort(array, temp, middle + 1, end);
+        mergeHalves(array, temp, beg, end);
+    }
+
+    public static void mergeHalves(int[] array, int[] temp, int beg, int end){
+        //the piece that actually does the sorting work
+
+        /* LeftSide (beg ---- endBeg)
+           RightSide (begEnd ---- end)
+         */
+        //get the end index of the left merge sort. essentially the middle
+        int endBeg = (beg + end)/2;
+        //need to keep track of the beginning of the right side.
+        int begEnd = endBeg + 1;
+        //size of the subarray we are dealing with
+        int size = (end - beg) + 1;
+
+        //we haven't sub divided arrays at all. we are just focusing on certain sections of the original array
+        int left = beg;
+        int right = begEnd;
+        int index = beg;
+
+        //while both left and right subarrays are still in bounds
+        while(left <= endBeg && right <= end){
+            if(array[left] <= array[right]){
+                temp[index] = array[left];
+                left++;
+            } else {
+                temp[index] = array[right];
+                right++;
+            }
+            index++;
+        }
+        //now when the left or right array goes out of bounds, we need to copy the remaining elements from
+        //either side with remaining elements
+        //use System.arraycopy
+        /*copy from array, starting from the left pointer, into temp, starting from index (where we left off),
+        the remaining left array items
+        */
+        System.arraycopy(array, left, temp, index, endBeg - left + 1);
+        /*copy from array, starting from the right pointer, into temp, starting from index (where we left off),
+        the remaining right array items
+        */
+        System.arraycopy(array, right, temp, index, end - right + 1);
+        //copy everything from temp back into array
+        System.arraycopy(temp, beg, array, beg, size);
+    }
+
+
     public static void main(String[] args) {
 
         int[] a = {8, 7, 4, 5, 2, 6, 1};
