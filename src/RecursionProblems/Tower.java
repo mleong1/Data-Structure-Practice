@@ -6,11 +6,13 @@ public class Tower {
 
     //public variables
     Stack<Integer> diskStack;
+    int size;
 
     //constuctor
 
     public Tower() {
         diskStack = new Stack<Integer>();
+        size = 0;
     }
 
     /*method: moveDisk()
@@ -19,6 +21,8 @@ public class Tower {
     public void moveDisk(Tower dest){
         Integer disk = this.diskStack.pop();
         dest.diskStack.push(disk);
+        this.size--;
+        dest.size++;
     }
 
     public void addDisk(Integer val){
@@ -26,6 +30,7 @@ public class Tower {
             System.out.println("Disk is bigger than preceding disk. Cannot Place");
         } else {
             this.diskStack.push(val);
+            this.size++;
         }
     }
 
@@ -51,9 +56,10 @@ public class Tower {
         Tower c = new Tower();
         a.addDisk(5);
         a.addDisk(1);
+        System.out.println(a.size);
         //a.moveDisk(b);
         //loSystem.out.println(b.diskStack.peek());
-        towerOfHanoi(1, a, b, c);
+        towerOfHanoi(a.size-1, a, b, c);
         System.out.println(a.diskStack.isEmpty());
         System.out.println(b.diskStack.peek());
     }
