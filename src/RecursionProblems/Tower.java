@@ -38,10 +38,11 @@ public class Tower {
          */
         if(n == 0){
             source.moveDisk(dest);
+            return;
         }
-        towerOfHanoi(n-1, source, temp, dest);
+        towerOfHanoi(n - 1, source, temp, dest);
         source.moveDisk(dest);
-        towerOfHanoi(n - 1, source, dest, temp);
+        towerOfHanoi(n - 1, temp, dest, source);
     }
 
     public static void main(String[] args) {
@@ -49,9 +50,11 @@ public class Tower {
         Tower b = new Tower();
         Tower c = new Tower();
         a.addDisk(5);
-        a.addDisk(10);
-        a.moveDisk(b);
-        System.out.println(b.diskStack.peek());
+        a.addDisk(1);
+        //a.moveDisk(b);
+        //loSystem.out.println(b.diskStack.peek());
         towerOfHanoi(1, a, b, c);
+        System.out.println(a.diskStack.isEmpty());
+        System.out.println(b.diskStack.peek());
     }
 }
