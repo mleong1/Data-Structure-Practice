@@ -39,6 +39,20 @@ public class Recursion {
             return powerSum(X, P, N += 1) + powerSum(X - num, P, N += 1);
         }
     }
+
+    public static int superDigit(String n){
+        int sum = 0;
+        if(n.length() == 1){
+            sum = Character.getNumericValue(n.charAt(n.length() - 1));
+            return sum;
+        } else {
+            for(int i = 0; i < n.length(); i ++){
+                sum += Character.getNumericValue(n.charAt(i));
+            }
+            String newString = Integer.toString(sum);
+            return superDigit(newString);
+        }
+    }
     public static void main(String[] args) {
 
         int[] nums = {1, 5, 8, 11};
@@ -47,5 +61,7 @@ public class Recursion {
         int[] startTow = {1, 5, 5, 10, 15, 20};
         System.out.println(tripleStep(5));
         System.out.println(powerSum(10, 2));
+        System.out.println(superDigit("155"));
+
     }
 }
