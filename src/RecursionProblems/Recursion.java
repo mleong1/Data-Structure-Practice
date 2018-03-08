@@ -53,6 +53,25 @@ public class Recursion {
             return superDigit(newString);
         }
     }
+
+    public static boolean isValidConcat(String[] passwords, String loginAttempt){
+        //base case?
+        for (String p: passwords) {
+            if(loginAttempt.equals(p)){
+                return true;
+            }
+        }
+
+        for (String p: passwords){
+            System.out.println(p);
+            System.out.println(loginAttempt.substring(0, p.length()));
+            if(loginAttempt.substring(0, p.length()).equals(p)){
+                return isValidConcat(passwords, loginAttempt.substring(p.length()));
+            }
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
 
         int[] nums = {1, 5, 8, 11};
@@ -62,6 +81,9 @@ public class Recursion {
         System.out.println(tripleStep(5));
         System.out.println(powerSum(10, 2));
         System.out.println(superDigit("155"));
+        String password = "password";
+        String[] words = {"pass", "word", "yeh"};
+        System.out.println(isValidConcat(words, password));
 
     }
 }
