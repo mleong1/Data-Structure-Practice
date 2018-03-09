@@ -72,6 +72,35 @@ public class Recursion {
         return false;
     }
 
+    public static int makeChangeRec(int total){
+        //same problem as makeChange but with a recursive solution
+        if(total == 0){
+            return 0;
+        }
+        return 1;
+    }
+    public static int makeChange(int total){
+        //count all the ways to make the total using quarters, dimes, nickels and pennies
+        //dynamic programming solution
+        int[] moneyArr = {1, 5, 10, 25};
+        if(total == 0){
+            return 0;
+        }
+        //make an int array of length total
+        int[] memo = new int[total + 1];
+        memo[0] = 1;
+        for (int m: moneyArr) {
+            for (int i = 1; i < memo.length; i++) {
+                //if the current amount is greater than or equal to the current coin
+                if(i >= m) {
+                    memo[i] += memo[i - m];
+                    //System.out.println(memo[i]);
+                }
+            }
+        }
+        return memo[total];
+    }
+
     public static void main(String[] args) {
 
         int[] nums = {1, 5, 8, 11};
@@ -84,6 +113,6 @@ public class Recursion {
         String password = "password";
         String[] words = {"pass", "word", "yeh"};
         System.out.println(isValidConcat(words, password));
-
+        System.out.println(makeChange(25));
     }
 }
