@@ -73,12 +73,25 @@ public class Recursion {
     }
 
     public static int makeChangeRec(int total){
-        //same problem as makeChange but with a recursive solution
-        if(total == 0){
-            return 0;
-        }
-        return 1;
+        int[] coinArr = {25, 10, 5, 1};
+        //start at coin index 0 for quarter
+        return makeChangeRec(total, 0, coinArr);
     }
+    public static int makeChangeRec(int total, int coinInd, int[] coinArr){
+        //this means you've hit pennies and there is only one way to make change with pennies.
+        //pennies is at the last index
+        if(coinInd >= coinArr.length - 1){
+            return 1;
+        }
+        int currCoin = coinArr[coinInd];
+        int ways = 0;
+        for(int i = 0; i * currCoin <= total; i ++){
+            //go into the next layer of coin
+            ways += makeChangeRec((total - (i*currCoin)), coinInd + 1, coinArr);
+        }
+        return ways;
+    }
+
     public static int makeChange(int total){
         //count all the ways to make the total using quarters, dimes, nickels and pennies
         //dynamic programming solution
@@ -114,5 +127,6 @@ public class Recursion {
         String[] words = {"pass", "word", "yeh"};
         System.out.println(isValidConcat(words, password));
         System.out.println(makeChange(25));
+        System.out.println(makeChangeRec(25));
     }
 }
