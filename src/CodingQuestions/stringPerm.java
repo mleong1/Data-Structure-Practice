@@ -24,18 +24,27 @@ public class stringPerm {
         //replace all spaces with %20
 
         char[] hold = new char[trueLen];
-        System.out.println(hold.length);
+        //j is the index for hold
+        int j = 0;
         char[] strChar = str.toCharArray();
-        for(int i = 0; i < strChar.length; i ++){
-            if(strChar[i] == 0){
-                hold[i] = '%';
-                hold[i + 1] = '2';
-                hold[i + 2] = '0';
-
+        //iterate through the string's chars
+        for(int i = 0; i < strChar.length && j < hold.length; i++){
+            //32 is the value for Space in ASCII
+            if(strChar[i] != 32){
+                hold[j] = strChar[i];
+                //System.out.println(j);
+                j ++;
+            } else {
+                hold[j] = '%';
+                j++;
+                hold[j] = '2';
+                j++;
+                hold[j] = '0';
+                j++;
             }
         }
-        String b = new String(hold);
-        return b;
+        String url = new String(hold);
+        return url;
     }
 
     public boolean isPalPerm(String str){
