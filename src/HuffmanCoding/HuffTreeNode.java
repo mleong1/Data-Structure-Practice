@@ -1,6 +1,7 @@
 package HuffmanCoding;
 
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 
 public class HuffTreeNode implements Comparable {
     /*this class is for huffman coding tree nodes which will need to hold the char value and the frequency
@@ -8,10 +9,18 @@ public class HuffTreeNode implements Comparable {
       instructional website : https://www2.cs.duke.edu/csed/poop/huff/info/
      */
 
+    //Priority Queue is an abstract data type meaning it can be implemented with a variety of data structs
+    //think heaps which can be implemented via binary search trees or just arrays
     int freq;
     char name;
+    //this int is used as a handle to keep track of the object in the priority queue
+    int heapIndex;
     HuffTreeNode leftChild;
     HuffTreeNode rightChild;
+
+    public HuffTreeNode (){
+
+    }
 
     public HuffTreeNode(int freq, char name){
         this.freq = freq;
@@ -24,9 +33,12 @@ public class HuffTreeNode implements Comparable {
 
 
 
-    public static ArrayList<HuffTreeNode> getFrequency(String phrase){
+    public static PriorityQueue<HuffTreeNode> getFrequency(String phrase){
         char[] letters = phrase.toCharArray();
-        ArrayList<HuffTreeNode> forest= new ArrayList<HuffTreeNode>();
+        //right now we store all of the character nodes into an arraylist but we want them in a priority queue
+        //for when we merge min frequency trees
+        PriorityQueue<HuffTreeNode> forest = new PriorityQueue<HuffTreeNode>();
+        //ArrayList<HuffTreeNode> forest= new ArrayList<HuffTreeNode>();
 
         for (char l : letters) {
             boolean nodeExists = false;
@@ -45,10 +57,22 @@ public class HuffTreeNode implements Comparable {
         return forest;
     }
 
-    public static void printHisto(ArrayList<HuffTreeNode> forest){
+    public static void printHisto(PriorityQueue<HuffTreeNode> forest){
         for (HuffTreeNode node: forest) {
             System.out.println(node.toString());
         }
+        System.out.println(forest.size());
+    }
+
+    public static HuffTreeNode huffman(PriorityQueue<HuffTreeNode> forest){
+        while(forest.size() != 1) {
+            HuffTreeNode node = new HuffTreeNode();
+            node.leftChild = forest.poll();
+            node.rightChild = forest.poll();
+            node.freq = node.leftChild.freq + node.rightChild.freq;
+            forest.add(node);
+        }
+        return forest.peek();
     }
 
     public int compareTo(Object arg0){
@@ -63,8 +87,10 @@ public class HuffTreeNode implements Comparable {
     }
 
     public static void main(String[] args) {
-        ArrayList<HuffTreeNode> forest = getFrequency("go go gophers");
+        PriorityQueue<HuffTreeNode> forest = getFrequency("go go gophers");
         printHisto(forest);
-        System.out.println(forest.get(2).compareTo(forest.get(2)));
+        huffman(forest);
+        printHisto(forest);
+        //System.out.println(forest.get(2).compareTo(forest.get(2)));
     }
 }
