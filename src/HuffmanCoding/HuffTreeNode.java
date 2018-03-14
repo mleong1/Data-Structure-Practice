@@ -15,8 +15,8 @@ public class HuffTreeNode implements Comparable {
     //think heaps which can be implemented via binary search trees or just arrays
     int freq;
     char name;
-    //this int is used as a handle to keep track of the object in the priority queue
-    int heapIndex;
+    //this is the Huffman Code for the char
+    String code = "";
     HuffTreeNode leftChild;
     HuffTreeNode rightChild;
 
@@ -27,6 +27,7 @@ public class HuffTreeNode implements Comparable {
     public HuffTreeNode(int freq, char name){
         this.freq = freq;
         this.name = name;
+        //this.code = "";
     }
 
     public String toString(){
@@ -112,6 +113,19 @@ public class HuffTreeNode implements Comparable {
         }
     }
 
+    public static void encode(HuffTreeNode root){
+        if(root == null){
+            return;
+        }
+        if(root.leftChild != null){
+            root.leftChild.code = root.code.concat("0");
+            encode(root.leftChild);
+        }
+        if(root.rightChild != null){
+            root.rightChild.code = root.code.concat("1");
+            encode(root.rightChild);
+        }
+    }
     /*
     public String findNode(HuffTreeNode root, HashMap<Character, Integer> map, char tarName){
         //Concat coding to the end of this string and return
@@ -149,7 +163,10 @@ public class HuffTreeNode implements Comparable {
         HashMap<Character, Integer> map = lookupTable(forest);
         HuffTreeNode root = huffman(forest);
         printHisto(forest);
+        encode(root);
         //preOrderTraversal(root);
         //System.out.println(forest.get(2).compareTo(forest.get(2)));
+        System.out.println(root.leftChild.leftChild.code);
+        System.out.println(root.leftChild.leftChild.name);
     }
 }
