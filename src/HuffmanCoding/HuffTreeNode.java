@@ -105,6 +105,17 @@ public class HuffTreeNode implements Comparable {
         }
     }
 
+    public static HashMap<Character, String> lookupTable2(HuffTreeNode root, HashMap<Character, String> map) {
+        if(root != null){
+            lookupTable2(root.leftChild, map);
+            if(root.name != 0){
+                map.put(root.name, root.code);
+            }
+            lookupTable2(root.rightChild, map);
+        }
+        return map;
+    }
+
     public static void preOrderTraversal(HuffTreeNode root){
         if(root != null) {
             System.out.println(root.toString());
@@ -166,7 +177,16 @@ public class HuffTreeNode implements Comparable {
         encode(root);
         //preOrderTraversal(root);
         //System.out.println(forest.get(2).compareTo(forest.get(2)));
-        System.out.println(root.leftChild.leftChild.code);
-        System.out.println(root.leftChild.leftChild.name);
+        //System.out.println(root.leftChild.leftChild.code);
+        //System.out.println(root.leftChild.leftChild.name);
+        HashMap<Character, String> map2 = new HashMap<Character, String>();
+        lookupTable2(root, map2);
+        System.out.println(map2.get('g'));
+        System.out.println(map2.get('o'));
+        System.out.println(map2.get('p'));
+        System.out.println(map2.get('h'));
+        System.out.println(map2.get('e'));
+        System.out.println(map2.get('r'));
+        System.out.println(map2.get(' '));
     }
 }
