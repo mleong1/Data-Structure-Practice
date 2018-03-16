@@ -9,7 +9,29 @@ public class BlackJackCard extends Card {
         super(fV, s);
     }
     public int value(){
-        return 1;
+        if(this.isAce()){
+            return 1;
+        } else if (this.isFaceCard()){
+            return 10;
+        } else {
+            return this.faceValue;
+        }
+    }
+
+    public int minValue(){
+        if(this.isAce()){
+            return 1;
+        } else {
+            return this.faceValue;
+        }
+    }
+
+    public int maxValue(){
+        if(this.isAce()){
+            return 11;
+        } else {
+            return this.faceValue;
+        }
     }
 
     public boolean isAce(){
