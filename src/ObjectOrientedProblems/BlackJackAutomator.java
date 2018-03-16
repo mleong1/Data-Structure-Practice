@@ -3,10 +3,10 @@ package ObjectOrientedProblems;
 import java.util.ArrayList;
 
 public class BlackJackAutomator {
-    private Deck deck;
+    private Deck<BlackJackCard> deck;
 
     public void initDeck(){
-        ArrayList<BlackJackCard> deckOfCards = new ArrayList<BlackJackCard>();
+        ArrayList<BlackJackCard> deckOfCards = new ArrayList<>();
         for(int i = 1; i < 14; i ++){
             for(int j = 0; j < 4; j ++) {
                 Suit s = Suit.getSuitFromValue(j);
@@ -16,11 +16,20 @@ public class BlackJackAutomator {
         }
         deck = new Deck();
         deck.setDeck(deckOfCards);
+        deck.shuffle();
     }
 
     public static void main(String[] args) {
         BlackJackAutomator auto = new BlackJackAutomator();
         auto.initDeck();
+        //auto.deck.print();
+        BlackJackHand hand = new BlackJackHand();
+        hand.addCard(auto.deck.dealCard());
+        hand.addCard(auto.deck.dealCard());
+        hand.addCard(auto.deck.dealCard());
         auto.deck.print();
+        System.out.println("HAND CARDS");
+        hand.print();
+        hand.score();
     }
 }

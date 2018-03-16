@@ -50,4 +50,10 @@ public class Deck <T extends Card> {
 
         return card;
     }
+
+    public void print(){
+        for (Card c: cards) {
+            c.print();
+        }
+    }
 }

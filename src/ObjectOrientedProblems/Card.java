@@ -16,7 +16,7 @@ public abstract class Card {
 
     public Card(int fV, Suit s){
         this.faceValue = fV;
-        this.suit = suit;
+        this.suit = s;
     }
 
     public abstract int value();
@@ -30,6 +30,10 @@ public abstract class Card {
     }
     public void markAvailable(){
         this.available = true;
+    }
+
+    public void print(){
+        System.out.println(this.faceValue + " of " + this.suit);
     }
 
 }

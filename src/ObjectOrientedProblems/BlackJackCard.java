@@ -22,7 +22,7 @@ public class BlackJackCard extends Card {
         if(this.isAce()){
             return 1;
         } else {
-            return this.faceValue;
+            return this.value();
         }
     }
 
@@ -30,7 +30,7 @@ public class BlackJackCard extends Card {
         if(this.isAce()){
             return 11;
         } else {
-            return this.faceValue;
+            return this.value();
         }
     }
 
