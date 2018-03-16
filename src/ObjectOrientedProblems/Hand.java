@@ -20,6 +20,7 @@ public class Hand <T extends Card> {
     }
 
     public void print(){
+        System.out.println("CARDS IN HAND");
         for (Card c: cards){
             c.print();
         }

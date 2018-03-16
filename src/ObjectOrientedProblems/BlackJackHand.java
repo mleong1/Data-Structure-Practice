@@ -26,11 +26,13 @@ public class BlackJackHand extends Hand<BlackJackCard> {
         if(scores.size() == 0){
             scores.add(0);
         }
-        for(int i = 0; i < scores.size(); i ++){
+        //need to create  a variable fro scores.size because size will change dynamically with the ace
+        int length = scores.size();
+        for(int i = 0; i < length; i ++){
             int oldScore = scores.get(i);
             scores.set(i, oldScore + card.minValue());
             //essentially if the card added is an ace
-            if(card.minValue() != card.maxValue()){
+            if(card.isAce()){
                 scores.add(oldScore + card.maxValue());
             }
         }

@@ -52,6 +52,7 @@ public class Deck <T extends Card> {
     }
 
     public void print(){
+        System.out.println("CARDS IN DECK");
         for (Card c: cards) {
             c.print();
         }

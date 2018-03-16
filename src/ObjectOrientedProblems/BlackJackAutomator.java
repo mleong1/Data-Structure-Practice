@@ -4,7 +4,14 @@ import java.util.ArrayList;
 
 public class BlackJackAutomator {
     private Deck<BlackJackCard> deck;
+    private BlackJackHand[] hands;
 
+    public BlackJackAutomator(int numHands){
+        hands = new BlackJackHand[numHands];
+        for(int i = 0; i < numHands; i++){
+            hands[i] = new BlackJackHand();
+        }
+    }
     public void initDeck(){
         ArrayList<BlackJackCard> deckOfCards = new ArrayList<>();
         for(int i = 1; i < 14; i ++){
@@ -19,8 +26,22 @@ public class BlackJackAutomator {
         deck.shuffle();
     }
 
+    public boolean dealInitHands(){
+        for (BlackJackHand hand: this.hands) {
+            BlackJackCard card1 = this.deck.dealCard();
+            BlackJackCard card2 = this.deck.dealCard();
+            if(card1 == null || card2 == null){
+                return false;
+            }
+            hand.addCard(card1);
+            hand.addCard(card2);
+
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
-        BlackJackAutomator auto = new BlackJackAutomator();
+        BlackJackAutomator auto = new BlackJackAutomator(5);
         auto.initDeck();
         //auto.deck.print();
         BlackJackHand hand = new BlackJackHand();
@@ -28,7 +49,6 @@ public class BlackJackAutomator {
         hand.addCard(auto.deck.dealCard());
         hand.addCard(auto.deck.dealCard());
         auto.deck.print();
-        System.out.println("HAND CARDS");
         hand.print();
         hand.score();
     }
