@@ -20,7 +20,34 @@ public class Deck <T extends Card> {
         return cards.size() - dealtInd;
     }
 
-    /*public T[] dealHand(int num){
+    public T[] dealHand(int num){
+        if(this.remainingCards() < num){
+            //can't deal a hand with cards you don't have
+            return null;
+        }
 
-    }*/
+        //initialize a generic array
+        T[] hand = (T[]) new Card[num];
+        int i = 0;
+        while(i < num){
+            T handCard = this.dealCard();
+            if(handCard != null){
+                hand[i] = handCard;
+                i ++;
+            }
+        }
+        return hand;
+    }
+
+    public T dealCard(){
+        if(this.remainingCards() == 0){
+            return null;
+        }
+
+        T card = this.cards.get(dealtInd);
+        card.markUnavailable();
+        dealtInd ++;
+
+        return card;
+    }
 }
