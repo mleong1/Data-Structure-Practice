@@ -24,4 +24,8 @@ public class BlackJackDealer extends Player {
             return 1;
         }
     }
+
+    public void showCard(){
+        System.out.println(hand.cards.get(0));
+    }
 }

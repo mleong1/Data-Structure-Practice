@@ -39,9 +39,26 @@ public class BlackJackHand extends Hand<BlackJackCard> {
     }
     public int score(){
         ArrayList<Integer> scores = this.possibleScores();
+        int maxUnder = Integer.MIN_VALUE;
+        int minOver = Integer.MAX_VALUE;
         for(int s: scores){
-            System.out.println(s);
+            if(s > 21 && s < minOver){
+                minOver = s;
+            } else if (s <= 21 && s > maxUnder){
+                maxUnder = s;
+            }
         }
-        return 1;
+        //if maxunder never changed return minOver and if it did return maxUnder
+        //if maxunder never changed that score busted
+        return maxUnder == Integer.MIN_VALUE ? minOver : maxUnder;
+    }
+
+    public boolean isBlackJack() {
+        if (this.cards.size() == 2) {
+            BlackJackCard one = this.cards.get(0);
+            BlackJackCard two = this.cards.get(1);
+            return (one.isAce() && two.isFaceCard() || one.isFaceCard() && two.isAce());
+        }
+        return false;
     }
 }

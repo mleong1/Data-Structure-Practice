@@ -6,6 +6,7 @@ public class Player {
     //dealer would extend player with his actions automated based on rules of blackjack
     //could have a field for money for betting
     protected BlackJackHand hand;
+    private boolean winner;
 
 
     //Todo get rid of input private field and just have getInput return a string either hit or stay
@@ -25,6 +26,12 @@ public class Player {
             }
         }
     }
+
+    public void isWinner(){
+        this.winner = true;
+    }
+
+
 
     //Other player methods would go here like betting but that may be outside of what is necessary
     public static void main(String[] args) {
