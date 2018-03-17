@@ -5,7 +5,7 @@ public class Player {
     //the class for the Player probably will use scanners for input
     //dealer would extend player with his actions automated based on rules of blackjack
     //could have a field for money for betting
-    private Hand hand;
+    protected BlackJackHand hand;
 
 
     //Todo get rid of input private field and just have getInput return a string either hit or stay

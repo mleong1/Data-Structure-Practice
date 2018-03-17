@@ -5,6 +5,15 @@ import java.util.ArrayList;
 public class BlackJackAutomator {
     private Deck<BlackJackCard> deck;
     private BlackJackHand[] hands;
+    private Player[] players;
+
+    /*public BlackJackAutomator(int numPlayers){
+        players = new Player[numPlayers];
+        for(int i = 0; i < numPlayers; i++){
+            players[i] = new Player();
+            players[i].hand = new BlackJackHand();
+        }
+    }*/
 
     public BlackJackAutomator(int numHands){
         hands = new BlackJackHand[numHands];
