@@ -60,6 +60,30 @@ public class BlackJackAutomator {
         return winners;
     }
 
+    public boolean playerPlay(int playerNum){
+        Player p = this.players[playerNum];
+        return playerPlay(p);
+
+    }
+
+    public boolean playerPlay(Player p){
+        System.out.println("Player this is your hand.");
+        p.hand.print();
+        int choice = p.getInput();
+        if(choice == 0){
+            BlackJackCard card = deck.dealCard();
+            if(card == null){
+                return false;
+            }
+            p.hand.addCard(card);
+            return true;
+        } else if (choice == 1) {
+            //todo not sure about returning false for deck being empty and staying is a good idea.
+            return false;
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         BlackJackAutomator auto = new BlackJackAutomator(2);
         auto.initDeck();
@@ -77,7 +101,7 @@ public class BlackJackAutomator {
             p.hand.print();
             System.out.println("Hand Score: " + p.hand.score());
         }
-        
+        auto.playerPlay(0);
 
     }
 }
