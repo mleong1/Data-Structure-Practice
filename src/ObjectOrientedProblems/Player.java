@@ -9,17 +9,19 @@ public class Player {
     private boolean winner;
 
 
-    //Todo get rid of input private field and just have getInput return a string either hit or stay
+    //Todo fix the scanner NoSuchElementException problem
     public int getInput(){
+        //maybe this input method should go in main
         while(true) {
             System.out.println("Would you like to hit or stay?");
             Scanner reader = new Scanner(System.in);
             String n = reader.next();
             if (n.toUpperCase().equals("HIT")) {
-                reader.close();
+                //these readers.close cause a NoSuchElementException
+                //reader.close();
                 return 0;
             } else if (n.toUpperCase().equals("STAY")) {
-                reader.close();
+                //reader.close();
                 return 1;
             } else {
                 System.out.println("Option not available");

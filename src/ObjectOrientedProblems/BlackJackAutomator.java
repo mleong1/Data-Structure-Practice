@@ -6,12 +6,14 @@ public class BlackJackAutomator {
     private Deck<BlackJackCard> deck;
     //private BlackJackHand[] hands;
     private Player[] players;
+    private BlackJackDealer dealer;
 
     public BlackJackAutomator(int numPlayers){
         players = new Player[numPlayers];
         for(int i = 0; i < numPlayers; i++){
             players[i] = new Player();
             players[i].hand = new BlackJackHand();
+            dealer = BlackJackDealer.getInstance();
         }
     }
 
@@ -36,7 +38,7 @@ public class BlackJackAutomator {
     }
 
     public boolean dealInitHands(){
-        for (Player p: players) {
+        for (Player p: this.players) {
             BlackJackCard card1 = this.deck.dealCard();
             BlackJackCard card2 = this.deck.dealCard();
             if(card1 == null || card2 == null){
@@ -46,6 +48,17 @@ public class BlackJackAutomator {
             p.hand.addCard(card2);
 
         }
+        return true;
+    }
+
+    public boolean dealDealerHand(){
+        BlackJackCard card1 = this.deck.dealCard();
+        BlackJackCard card2 = this.deck.dealCard();
+        if(card1 == null || card2 == null){
+            return false;
+        }
+        this.dealer.hand.addCard(card1);
+        this.dealer.hand.addCard(card2);
         return true;
     }
 
@@ -76,12 +89,37 @@ public class BlackJackAutomator {
                 return false;
             }
             p.hand.addCard(card);
+            System.out.println(p.hand.score());
             return true;
-        } else if (choice == 1) {
+        } else {
             //todo not sure about returning false for deck being empty and staying is a good idea.
-            return false;
+            System.out.println(p.hand.score());
+            return true;
         }
-        return false;
+    }
+
+    public ArrayList<Player> getWinners(){
+        ArrayList<Player> winners = new ArrayList<Player>();
+        int winningScore = dealer.hand.score();
+        for (Player p : this.players) {
+            if(!p.hand.isBusted()){
+                if(p.hand.score() > winningScore){
+                    winners.add(p);
+                } else if(p.hand.score() == winningScore){
+                    winners.add(p);
+                }
+            }
+        }
+        return winners;
+    }
+
+    public void printHandsAndScore(){
+        System.out.println("--Dealer's UpCard--");
+        this.dealer.showCard();
+        for (Player p : this.players) {
+            System.out.println("--Player's Hand--  Score: " + p.hand.score());
+            p.hand.print();
+        }
     }
 
     public static void main(String[] args) {
@@ -102,6 +140,7 @@ public class BlackJackAutomator {
             System.out.println("Hand Score: " + p.hand.score());
         }
         auto.playerPlay(0);
+        auto.playerPlay(1);
 
     }
 }

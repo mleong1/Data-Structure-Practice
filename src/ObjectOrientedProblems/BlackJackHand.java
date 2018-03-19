@@ -53,6 +53,14 @@ public class BlackJackHand extends Hand<BlackJackCard> {
         return maxUnder == Integer.MIN_VALUE ? minOver : maxUnder;
     }
 
+    public boolean isBusted(){
+        return this.score() > 21;
+    }
+
+    public boolean is21(){
+        return this.score() == 21;
+    }
+
     public boolean isBlackJack() {
         if (this.cards.size() == 2) {
             BlackJackCard one = this.cards.get(0);
