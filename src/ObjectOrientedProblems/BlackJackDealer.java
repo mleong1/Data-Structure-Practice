@@ -16,16 +16,17 @@ public class BlackJackDealer extends Player {
     }
 
     //overriding method in player except dealer has no choice in hits, automate
-    public int getInput(){
+    public boolean getInput(){
         if(this.hand.score() < HIT_UNTIL){
             //0 means hit
-            return 0;
+            return true;
         } else{
-            return 1;
+            return false;
         }
     }
 
     public void showCard(){
-        System.out.println(hand.cards.get(0));
+        System.out.println("Dealer's UpCard");
+        hand.cards.get(0).print();
     }
 }

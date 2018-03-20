@@ -10,8 +10,10 @@ public class Player {
 
 
     //Todo fix the scanner NoSuchElementException problem
-    public int getInput(){
+    //why did i do 0 and 1? why not just true and false
+    public boolean getInput(){
         //maybe this input method should go in main
+        //add some way to see the dealer's face card
         while(true) {
             System.out.println("Would you like to hit or stay?");
             Scanner reader = new Scanner(System.in);
@@ -19,10 +21,10 @@ public class Player {
             if (n.toUpperCase().equals("HIT")) {
                 //these readers.close cause a NoSuchElementException
                 //reader.close();
-                return 0;
+                return true;
             } else if (n.toUpperCase().equals("STAY")) {
                 //reader.close();
-                return 1;
+                return false;
             } else {
                 System.out.println("Option not available");
             }
@@ -31,6 +33,10 @@ public class Player {
 
     public void isWinner(){
         this.winner = true;
+    }
+
+    public boolean hasWon(){
+        return this.winner;
     }
 
 

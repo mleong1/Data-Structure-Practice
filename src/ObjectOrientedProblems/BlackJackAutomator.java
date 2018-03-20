@@ -13,8 +13,9 @@ public class BlackJackAutomator {
         for(int i = 0; i < numPlayers; i++){
             players[i] = new Player();
             players[i].hand = new BlackJackHand();
-            dealer = BlackJackDealer.getInstance();
         }
+        dealer = BlackJackDealer.getInstance();
+        dealer.hand = new BlackJackHand();
     }
 
     /*public BlackJackAutomator(int numHands){
@@ -23,6 +24,56 @@ public class BlackJackAutomator {
             hands[i] = new BlackJackHand();
         }
     }*/
+
+    public void startGame(){
+        initDeck();
+        dealInitHands();
+        dealDealerHand();
+        if(dealer.hand.isBlackJack()){
+            System.out.println("Dealer wins.");
+            return;
+        }
+        ArrayList<Player> initWinners = getBlackJacks();
+        dealer.showCard();
+
+        for (Player p : players) {
+            if (!p.hasWon()) {
+                System.out.println("Player's Score: " + p.hand.score());
+                p.hand.print();
+                //while player is asking for a hit
+
+                boolean input = p.getInput();
+                while (input) {
+                    BlackJackCard card = deck.dealCard();
+                    if (card == null) {
+                        System.out.println("Deck is out of cards.");
+                        return;
+                    }
+                    p.hand.addCard(card);
+                    System.out.println("Player's Score: " + p.hand.score());
+                    p.hand.print();
+                    input = p.getInput();
+                }
+            }
+        }
+
+        boolean dInput = dealer.getInput();
+        while(dInput){
+            BlackJackCard card = deck.dealCard();
+            if(card == null){
+                System.out.println("Deck is out of cards.");
+                return;
+            }
+            dealer.hand.addCard(card);
+            dInput = dealer.getInput();
+        }
+
+        ArrayList<Player> winners = getWinners();
+        System.out.println(dealer.hand.score());
+        System.out.println(winners.size());
+
+    }
+
     public void initDeck(){
         ArrayList<BlackJackCard> deckOfCards = new ArrayList<>();
         for(int i = 1; i < 14; i ++){
@@ -73,17 +124,18 @@ public class BlackJackAutomator {
         return winners;
     }
 
-    public boolean playerPlay(int playerNum){
+    /*public boolean playerPlay(int playerNum){
         Player p = this.players[playerNum];
         return playerPlay(p);
 
-    }
+    }*/
 
+    //this method is possibly unnecessary
     public boolean playerPlay(Player p){
         System.out.println("Player this is your hand.");
         p.hand.print();
-        int choice = p.getInput();
-        if(choice == 0){
+        boolean choice = p.getInput();
+        if(choice == true){
             BlackJackCard card = deck.dealCard();
             if(card == null){
                 return false;
@@ -100,7 +152,12 @@ public class BlackJackAutomator {
 
     public ArrayList<Player> getWinners(){
         ArrayList<Player> winners = new ArrayList<Player>();
-        int winningScore = dealer.hand.score();
+        int winningScore;
+        if(!dealer.hand.isBusted()) {
+            winningScore = dealer.hand.score();
+        } else {
+            winningScore = 0;
+        }
         for (Player p : this.players) {
             if(!p.hand.isBusted()){
                 if(p.hand.score() > winningScore){
@@ -124,8 +181,8 @@ public class BlackJackAutomator {
 
     public static void main(String[] args) {
         BlackJackAutomator auto = new BlackJackAutomator(2);
-        auto.initDeck();
-        auto.deck.print();
+        //auto.initDeck();
+        //auto.deck.print();
         /*BlackJackHand hand = new BlackJackHand();
         hand.addCard(auto.deck.dealCard());
         hand.addCard(auto.deck.dealCard());
@@ -133,14 +190,14 @@ public class BlackJackAutomator {
         auto.deck.print();
         hand.print();
         hand.score();*/
-        auto.dealInitHands();
-        ArrayList<Player> winners = auto.getBlackJacks();
-        for (Player p: auto.players) {
+        //auto.dealInitHands();
+        //ArrayList<Player> winners = auto.getBlackJacks();
+        /*for (Player p: auto.players) {
             p.hand.print();
             System.out.println("Hand Score: " + p.hand.score());
-        }
-        auto.playerPlay(0);
-        auto.playerPlay(1);
-
+        }*/
+        //auto.playerPlay(0);
+        //auto.playerPlay(1);
+        auto.startGame();
     }
 }
