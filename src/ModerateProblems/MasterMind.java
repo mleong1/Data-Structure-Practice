@@ -20,15 +20,18 @@ public class MasterMind {
         char[] guesses = guess.toCharArray();
         Ball[] ballArr = new Ball[guesses.length];
         for(int i = 0; i < guesses.length; i++){
-            if(guesses[i] == Character.getNumericValue('R')){
+            if(guesses[i] ==  'R'){
                 ballArr[i] = Ball.getBallFromValue(0);
-            } else if (guesses[i] == Character.getNumericValue('Y')){
+            } else if (guesses[i] == 'Y'){
                 ballArr[i] = Ball.getBallFromValue(1);
-            } else if (guesses[i] == Character.getNumericValue('B')){
+            } else if (guesses[i] == 'B'){
                 ballArr[i] = Ball.getBallFromValue(2);
-            } else if (guesses[i] == Character.getNumericValue('G')){
+            } else if (guesses[i] == 'G'){
                 ballArr[i] = Ball.getBallFromValue(3);
             }
+        }
+        for (Ball b: ballArr) {
+            System.out.println(b);
         }
         return returnHits(ballArr);
     }
@@ -93,5 +96,6 @@ public class MasterMind {
     public static void main(String[] args) {
         MasterMind m = new MasterMind(4);
         m.printBalls();
+        System.out.println(m.returnHits("rByg"));
     }
 }
