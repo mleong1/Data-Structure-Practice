@@ -10,14 +10,53 @@ public class MasterMind {
         Random rand = new Random();
         this.slots = new Ball[numSlots];
         for(int i = 0; i < numSlots; i++){
-            Ball b = Ball.getBallFromValue(rand.nextInt(3));
+            Ball b = Ball.getBallFromValue(rand.nextInt(4));
             this.slots[i] = b;
         }
     }
 
-    public String returnHits(String guess){
-        return "Hello";
+    public int returnHits(String guess){
+        guess = guess.toUpperCase();
+        char[] guesses = guess.toCharArray();
+        Ball[] ballArr = new Ball[guesses.length];
+        for(int i = 0; i < guesses.length; i++){
+            if(guesses[i] == Character.getNumericValue('R')){
+                ballArr[i] = Ball.getBallFromValue(0);
+            } else if (guesses[i] == Character.getNumericValue('Y')){
+                ballArr[i] = Ball.getBallFromValue(1);
+            } else if (guesses[i] == Character.getNumericValue('B')){
+                ballArr[i] = Ball.getBallFromValue(2);
+            } else if (guesses[i] == Character.getNumericValue('G')){
+                ballArr[i] = Ball.getBallFromValue(3);
+            }
+        }
+        return returnHits(ballArr);
     }
+
+    public int returnHits(Ball[] guess){
+        int results = 0;
+        for(int i = 0; i < this.slots.length; i++){
+            if(this.slots[i] == guess[i]){
+                results += 10;
+            } else {
+                //if this.slots[i] exists in guess
+                for(int j = i + 1; j < this.slots.length; j ++){
+                    if(this.slots[i] == guess[j]){
+                        results += 1;
+                        break;
+                    }
+                }
+            }
+        }
+        return results;
+    }
+
+    public void printBalls(){
+        for (Ball b: this.slots) {
+            System.out.println(b);
+        }
+    }
+
     public enum Ball{
         RED (0),
         YELLOW (1),
@@ -49,5 +88,10 @@ public class MasterMind {
             }
 
         }
+    }
+
+    public static void main(String[] args) {
+        MasterMind m = new MasterMind(4);
+        m.printBalls();
     }
 }
