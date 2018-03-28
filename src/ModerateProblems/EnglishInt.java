@@ -9,16 +9,36 @@ public class EnglishInt {
     String[] large = {"hundred", "thousand", "million", "billion"};
     String negative = "negative";
 
-    public void writeNum(int num){
-        if(num < 20){
-            System.out.println(smalls[num]);
+    public String writeNum(int num){
+        if(num == 0){
+            return smalls[0];
+        } else if(num < 0){
+            return negative + " " + writeNum(-1 * num);
         }
+
+        LinkedList<String> parts= new LinkedList<String>();
+        int chunkCount = 0;
+
+        while(num > 0){
+            if(num % 1000 != 0){
+                if(chunkCount != 0) {
+                    String chunk = convertNum(num % 1000) + " " + large[chunkCount];
+                    parts.addFirst(chunk);
+                } else {
+                    String chunk = convertNum(num % 1000) + " ";
+                    parts.addFirst(chunk);
+                }
+            }
+            num /= 1000;
+            chunkCount ++;
+        }
+        return listToString(parts);
     }
 
     public String convertNum(int num){
         LinkedList<String> parts = new LinkedList<String>();
 
-        if(num > 100){
+        if(num >= 100){
             //this will take care of the 100ths digit. num/100 is floored
             parts.addLast(smalls[num/100]);
             parts.addLast(large[0]);
@@ -53,6 +73,7 @@ public class EnglishInt {
 
     public static void main(String[] args) {
         EnglishInt eI = new EnglishInt();
-        System.out.println(eI.convertNum(231));
+        System.out.println(eI.writeNum(1000030));
+        System.out.println(eI.writeNum(237861002));
     }
 }
