@@ -140,6 +140,21 @@ public class HashTable3 <K, V>{
         size --;
         return head.getValue();
     }
+
+    public V getValue(K key){
+        int ind = getIndex(key);
+        HashNode<K,V> head = list.get(ind);
+
+        while(head != null){
+            if(head.getKey() != key){
+                head = head.getNext();
+            } else {
+                return head.getValue();
+            }
+        }
+
+        return null;
+    }
     //todo make the chain readable
     public void print(){
         for (HashNode<K,V> node: list) {
@@ -159,7 +174,7 @@ public class HashTable3 <K, V>{
         HashTable3<String,Integer> hT = new HashTable3<>(10);
         hT.add("Matt", 123);
         hT.add("asdfasdfsadsa", 222);
-        hT.print();
+        System.out.println(hT.getValue("asdfasdfsadsa"));
         System.out.println(hT.remove("Matt"));
 
     }
