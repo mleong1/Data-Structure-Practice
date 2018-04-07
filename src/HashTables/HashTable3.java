@@ -61,6 +61,10 @@ public class HashTable3 <K, V>{
     public int size(){
         return size;
     }
+
+    public boolean isEmpty(){
+        return size == 0;
+    }
     //this method gives us the index to insert for a given key from a hashnode
     public int getIndex(K key){
         //hashCode() can return a negative value if the key is too big use abs
@@ -109,21 +113,54 @@ public class HashTable3 <K, V>{
         }
     }
 
-    //only prints the head node in the chain rn
+    public V remove(K key){
+        //this is similar to delete from BST keep a parent node to sever connection
+        int ind = getIndex(key);
+        HashNode<K,V> head = list.get(ind);
+        HashNode<K,V> parent = null;
+
+        while(head != null){
+            parent = head;
+            if(head.getKey() == key){
+                break;
+            }
+            head = head.getNext();
+        }
+        if(head == null){
+            //couldn't find the value
+            return null;
+        }
+
+        if(parent != head){
+            parent.setNext(head.getNext());
+        } else {
+            //head is node we are deleting
+            list.set(ind, head.getNext());
+        }
+        size --;
+        return head.getValue();
+    }
+    //todo make the chain readable
     public void print(){
         for (HashNode<K,V> node: list) {
             if (node == null) {
                 System.out.println("Node is null");
             } else {
+                while(node.getNext() != null) {
+                    System.out.println(node.key + " " + node.getValue());
+                    node = node.getNext();
+                }
                 System.out.println(node.key + " " + node.getValue());
             }
         }
     }
+
     public static void main(String[] args) {
         HashTable3<String,Integer> hT = new HashTable3<>(10);
         hT.add("Matt", 123);
         hT.add("asdfasdfsadsa", 222);
         hT.print();
+        System.out.println(hT.remove("Matt"));
 
     }
 }
