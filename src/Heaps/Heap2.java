@@ -57,7 +57,8 @@ public class Heap2 <V>{
             this.rightChild = rightChild;
         }
     }
-    private HeapNode2 top;
+    private HeapNode2<V> top;
+    private HeapNode2<V> last;
     private int size;
 
     public Heap2(){
@@ -65,7 +66,7 @@ public class Heap2 <V>{
 
     public boolean addNode(int key, V value){
         //i guess boolean isn't necessary as a return type because why would add fail?
-        HeapNode2 insNode = new HeapNode2(key, value);
+        HeapNode2<V> insNode = new HeapNode2(key, value);
         if (top == null){
             top = insNode;
             size ++;
@@ -73,7 +74,7 @@ public class Heap2 <V>{
             return true;
         }
 
-        HeapNode2 relRoot = top;
+        HeapNode2<V> relRoot = top;
         String path = Integer.toBinaryString(size + 1);
         for(int i = 1; i < path.length() - 1; i ++){
             if(path.charAt(i) == '0'){
@@ -95,71 +96,68 @@ public class Heap2 <V>{
         }
 
         heapifyUp(insNode);
+        last = insNode;
         size ++;
         //todo add heapify up method
         return true;
     }
 
-    public void heapifyUp(HeapNode2 lastNode){
+    public void heapifyUp(HeapNode2<V> lastNode){
         //heapifyUp and Down are probably much easier to handle in the array form of heaps
         //while the last node has a parent and its key is less than its parent key...
         while(lastNode.getParent() != null && lastNode.getKey() < lastNode.getParent().getKey()){
             //...swap them
-            HeapNode2 temp = new HeapNode2(lastNode.getParent().getKey(), lastNode.getParent().getValue());
+            HeapNode2<V> temp = new HeapNode2(lastNode.getParent().getKey(), lastNode.getParent().getValue());
             lastNode.getParent().setKey(lastNode.getKey());
             lastNode.getParent().setValue(lastNode.getValue());
             lastNode.setKey(temp.getKey());
             lastNode.setValue(temp.getValue());
-            /*
-            HeapNode2 parent = lastNode.getParent();
-            HeapNode2 temp = parent;
-            temp.setLeftChild(null);
-            temp.setRightChild(null);
-            boolean lastNodeIsLeft;
-
-            if(parent.getLeftChild() == lastNode){
-                lastNodeIsLeft = true;
-            } else {
-                lastNodeIsLeft = false;
-            }
-            if(parent.getParent().getLeftChild() == parent){
-                parent.getParent().setLeftChild(lastNode);
-                lastNode.setParent(parent.getParent());
-                parent.setParent(null);
-                if(lastNodeIsLeft){
-                    lastNode.setLeftChild(temp);
-                    lastNode.setRightChild(parent.getRightChild());
-                    temp.setParent(lastNode);
-                    parent.getRightChild().setParent(lastNode);
-                    parent = null;
-                } else {
-                    lastNode.setLeftChild(parent.getLeftChild());
-                    lastNode.setRightChild(temp);
-                    temp.setParent(lastNode);
-                    parent.getLeftChild().setParent(lastNode);
-                    parent = null;
-                }
-            } else if(parent.getParent().getRightChild() == parent){
-                parent.getParent().setRightChild(lastNode);
-                lastNode.setParent(parent.getParent());
-                parent.setParent(null);
-                if(lastNodeIsLeft){
-                    lastNode.setLeftChild(temp);
-                    lastNode.setRightChild(parent.getRightChild());
-                    temp.setParent(lastNode);
-                    parent.getRightChild().setParent(lastNode);
-                    parent = null;
-                } else {
-                    lastNode.setLeftChild(parent.getLeftChild());
-                    lastNode.setRightChild(temp);
-                    temp.setParent(lastNode);
-                    parent.getLeftChild().setParent(lastNode);
-                    parent = null;
-                }
-            }*/
         }
     }
 
+    public V getMin(){
+        if(top == null){
+            throw new IllegalStateException();
+        }
+        return top.getValue();
+    }
+
+    public V extractMin(){
+        if(top == null){
+            throw new IllegalStateException();
+        }
+        V val = top.getValue();
+        top.setKey(last.getKey());
+        top.setValue(last.getValue());
+        //won't get rid of the last element but the next add should
+        size --;
+        heapifyDown();
+        return val;
+    }
+
+    public void heapifyDown(){
+        HeapNode2<V> relRoot = top;
+        while(relRoot.getLeftChild() != null) {
+            HeapNode2<V> smallerNode;
+            if(relRoot.getLeftChild().getKey() < relRoot.getRightChild().getKey()) {
+                smallerNode = relRoot.getLeftChild();
+            } else {
+                smallerNode = relRoot.getRightChild();
+            }
+
+            if(relRoot.getKey() < smallerNode.getKey()){
+                //top is already the smallest node
+                break;
+            } else {
+                HeapNode2<V> temp = new HeapNode2(smallerNode.getKey(), smallerNode.getValue());
+                smallerNode.setKey(relRoot.getKey());
+                smallerNode.setValue(relRoot.getValue());
+                relRoot.setKey(temp.getKey());
+                relRoot.setValue(temp.getValue());
+            }
+            relRoot = smallerNode;
+        }
+    }
     public static void main(String[] args) {
         Heap2 h = new Heap2();
         h.addNode(5, "WADSD");
@@ -169,7 +167,16 @@ public class Heap2 <V>{
         h.addNode(2, "blah bah");
         h.addNode(3, "hahaha");
         System.out.println(h.top.toString());
+        System.out.println(h.top.getLeftChild().toString());
+        System.out.println(h.last.toString());
+        h.extractMin();
+        System.out.println(h.top.toString());
+        System.out.println(h.top.getRightChild().toString());
+        System.out.println(h.top.getRightChild().getLeftChild().toString());
+        System.out.println(h.top.getLeftChild().toString());
         System.out.println(h.top.getLeftChild().getLeftChild().toString());
+        h.addNode(11, "hasdfh");
+        System.out.println(h.top.getRightChild().getLeftChild().toString());
 
     }
 }
