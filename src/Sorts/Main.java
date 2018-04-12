@@ -156,10 +156,80 @@ public class Main {
         return beg;
     }
 
+    public static void mergeSort2(int[] array){
+        mergeSort2(array, new int[array.length], 0, array.length-1);
+    }
+
+    public static void mergeSort2(int[] array, int[] temp, int beg, int end){
+        if(beg >= end){
+            return;
+        }
+        int middle = (end + beg) / 2;
+        //middle index of the array bit we are looking at
+
+        //left side of the array
+        mergeSort2(array, temp, beg, middle);
+        //right side of the array
+        mergeSort2(array, temp, middle + 1, end);
+        mergeHalves2(array, temp, beg, end);
+
+    }
+
+    public static void mergeHalves2(int[] array, int[] temp, int beg, int end){
+        System.out.println("Beg Index " + beg + " : " + "End Index " + end);
+        int leftEnd = (beg + end) / 2;
+        int size = (end - beg) + 1;
+        int rightStart = leftEnd + 1;
+
+        int leftStart = beg;
+        int rightEnd = end;
+        //used for copying into temp
+        int index = beg;
+
+        while(leftStart <= leftEnd && rightStart <= rightEnd){
+            //System.out.println(array[leftStart] + " vs " + array[rightStart]);
+            if(array[leftStart] <= array[rightStart]){
+                temp[index] = array[leftStart];
+                leftStart ++;
+            } else {
+                temp[index] = array[rightStart];
+                rightStart++;
+            }
+            index ++;
+        }
+
+        while(leftStart <= leftEnd){
+            temp[index] = array[leftStart];
+            index ++;
+            leftStart++;
+        }
+        
+        while(rightStart <= rightEnd){
+            temp[index] = array[rightStart];
+            index++;
+            rightStart++;
+        }
+
+        for(int i = beg; i <= end; i ++){
+            array[i] = temp[i];
+
+        }
+
+        System.out.println(array[0]);
+        System.out.println(array[1]);
+        System.out.println(array[2]);
+        System.out.println(array[3]);
+        System.out.println(array[4]);
+        System.out.println(array[5]);
+        System.out.println(array[6]);
+
+
+    }
+
     public static void main(String[] args) {
 
         int[] a = {8, 7, 4, 5, 2, 6, 1};
-        quickSort(a);
+        //quickSort(a);
         System.out.println(a[0]);
         System.out.println(a[1]);
         System.out.println(a[2]);
@@ -167,6 +237,7 @@ public class Main {
         System.out.println(a[4]);
         System.out.println(a[5]);
         System.out.println(a[6]);
+        mergeSort2(a);
 
     }
 }
