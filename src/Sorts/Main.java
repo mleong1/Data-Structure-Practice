@@ -203,7 +203,7 @@ public class Main {
             index ++;
             leftStart++;
         }
-        
+
         while(rightStart <= rightEnd){
             temp[index] = array[rightStart];
             index++;
@@ -226,10 +226,38 @@ public class Main {
 
     }
 
+    public static void quickSort2(int[] arr){
+        quickSort2(arr, 0, arr.length - 1);
+    }
+
+    public static void quickSort2(int[] arr, int start, int end){
+        if(start < end) {
+            int index = partition2(arr, start, end);
+            //index designates the left subarray and the right subarray
+            //minus 1 and plus 1 on index because index is in place
+            quickSort2(arr, start, index - 1);
+            quickSort2(arr, index + 1, end);
+        }
+    }
+
+    public static int partition2(int[] arr, int start, int end){
+        int pivot = arr[end];
+        int index = start - 1;
+        for(int i = start; i <= end - 1; i ++){
+            if(arr[i] <= pivot){
+                index++;
+                swap(arr, index, i);
+            }
+        }
+        //move the pivot into the position after the last swapped item
+        swap(arr, index + 1, end);
+        return index + 1;
+    }
+
     public static void main(String[] args) {
 
         int[] a = {8, 7, 4, 5, 2, 6, 1};
-        //quickSort(a);
+        quickSort2(a);
         System.out.println(a[0]);
         System.out.println(a[1]);
         System.out.println(a[2]);
@@ -237,7 +265,7 @@ public class Main {
         System.out.println(a[4]);
         System.out.println(a[5]);
         System.out.println(a[6]);
-        mergeSort2(a);
+        //mergeSort2(a);
 
     }
 }
