@@ -123,6 +123,32 @@ public class LinkedList2<E> {
         return true;
     }
 
+    /*Method: isPalindrome()
+      Summary: check to see if the head elem is the same as the tail elem. Then set pointer at head to head.next
+      and pointer at tail to tail.prev and check if those are the same. Continue until you've reached half of size?
+      Also if the number of elements is 1 or 0 auto return true.
+     */
+    public boolean isPalindrome(){
+        if(this.size() == 0 || this.size() == 1){
+            return true;
+        }
+        //check the head against the tail counter number of times
+        int counter = this.size()/2;
+        Node2<E> headPointer = head;
+        Node2<E> tailPointer = tail;
+
+        while(counter > 0){
+
+            if(headPointer.getElem() == tailPointer.getElem()){
+                headPointer = headPointer.getNext();
+                tailPointer = tailPointer.getPrev();
+                counter --;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public static void main(String[] args) {
         LinkedList2 lL2 = new LinkedList2();
@@ -137,5 +163,12 @@ public class LinkedList2<E> {
         System.out.println(lL2.getInd("hello"));
         System.out.println(lL2.remove(3));
         System.out.println(lL2.getElem(3));
+        LinkedList2<String> palindrome = new LinkedList2<>();
+        palindrome.add("hello");
+        palindrome.add("world");
+        palindrome.add("hey");
+        palindrome.add("world");
+        palindrome.add("hello");
+        System.out.println(palindrome.isPalindrome());
     }
 }
