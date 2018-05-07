@@ -68,7 +68,36 @@ public class Stack2<E> {
         }
     }
 
+    public static void sortWithStack(Stack2<Integer> original){
+        Stack2<Integer> temp = new Stack2<Integer>();
+        while(!original.isEmpty()){
+            StackNode2<Integer> pop = original.pop();
+            while(!temp.isEmpty() && temp.peek() > pop.getData()){
+                StackNode2<Integer> tempPop = temp.pop();
+                original.push(tempPop.getData());
+            }
+            temp.push(pop.getData());
+        }
+        System.out.println(temp.peek());
+        temp.pop();
+        System.out.println(temp.peek());
+        temp.pop();
+        System.out.println(temp.peek());
+        temp.pop();
+        System.out.println(temp.peek());
+        temp.pop();
+
+    }
     public boolean isEmpty(){
         return top == null;
+    }
+
+    public static void main(String[] args) {
+        Stack2<Integer> s = new Stack2<>();
+        s.push(3);
+        s.push(5);
+        s.push(15);
+        s.push(1);
+        sortWithStack(s);
     }
 }
