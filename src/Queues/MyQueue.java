@@ -10,11 +10,18 @@ public class MyQueue<T> {
     private Stack<T> queue;
     private Stack<T> temp;
 
+    public MyQueue(){
+        queue = new Stack<>();
+        temp = new Stack<>();
+    }
+
     //This is good but not as good as Gayle
     //if the queue is empty but the temp isn't we automatically move everything back into queue
     //Gayle has is set up so that you always push to Queue. if the temp has elements always remove from there
     //until it is empty. then refill it will elements from the queue.
-    public void push(T data){
+
+    //old push method
+    public void pus(T data){
         //need to account for when temp is holding everything
         if(queue.isEmpty()){
             if(temp.isEmpty()){
@@ -34,6 +41,9 @@ public class MyQueue<T> {
         }
     }
 
+    public void push(T data){
+        queue.push(data);
+    }
     public T remove(){
         if(queue.isEmpty()){
             if(temp.isEmpty()){
@@ -43,12 +53,17 @@ public class MyQueue<T> {
                 return popData;
             }
         } else {
-            //if the queue has elements transfer everything to temp to get the oldest item
-            while(!queue.isEmpty()){
-                T popData = queue.pop();
-                temp.push(popData);
+            if (!temp.isEmpty()) {
+                T popData = temp.pop();
+                return popData;
+            } else {
+                //if the queue has elements transfer everything to temp to get the oldest item
+                while (!queue.isEmpty()) {
+                    T popData = queue.pop();
+                    temp.push(popData);
+                }
+                return temp.pop();
             }
-            return temp.pop();
         }
     }
 
@@ -58,5 +73,14 @@ public class MyQueue<T> {
 
     public boolean isEmpty(){
         return queue.isEmpty() && temp.isEmpty();
+    }
+
+    public static void main(String[] args) {
+        MyQueue<Integer> q = new MyQueue<>();
+        q.push(1);
+        q.push(2);
+        q.push(3);
+        q.push(4);
+        System.out.println(q.remove());
     }
 }
