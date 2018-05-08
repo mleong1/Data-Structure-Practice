@@ -1,5 +1,8 @@
 package BinarySearchTrees;
 
+import LinkLists.LinkedList;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class BinarySearchTree<T> {
@@ -223,6 +226,7 @@ public class BinarySearchTree<T> {
     public boolean validateBST(BSTnode root){
         return validateBST(Integer.MIN_VALUE, Integer.MAX_VALUE, this.root);
     }
+
     public boolean validateBST(int min, int max, BSTnode relRoot){
         if(relRoot == null){
             //we've finished searching the bst
@@ -247,6 +251,29 @@ public class BinarySearchTree<T> {
         BSTnode<T> garbage = new BSTnode(10, "AS");
         this.root.getLeftChild().setRightChild(garbage);
     }
+
+    public ArrayList<LinkedList> listDepths(BSTnode root){
+        ArrayList<LinkedList> depths = new ArrayList<>();
+        int depthSize = (int)(Math.log10(this.size())/Math.log10(2));
+        for(int i = 0; i <= depthSize; i ++) {
+            LinkedList<BSTnode> level = new LinkedList<>();
+            depths.add(level);
+        }
+        return listDepths(root, depths, 0);
+    }
+
+    public ArrayList<LinkedList> listDepths(BSTnode root, ArrayList<LinkedList> depths, int level){
+        //base case 1 if we have run out of nodes
+        if(root == null){
+            return depths;
+        }
+        //add root to the first level
+        depths.get(level).add(root);
+        listDepths(root.getLeftChild(), depths, level ++);
+        listDepths(root.getRightChild(), depths, level ++);
+        //???
+        return depths;
+    }
     public static void main(String[] args) {
         BinarySearchTree bst = new BinarySearchTree();
         bst.addNode(5, "hi");
@@ -257,10 +284,9 @@ public class BinarySearchTree<T> {
         System.out.println(bst.findNode(10).getData());
         System.out.println(bst.findNode(5).getData());
         System.out.println(bst.findNode(15).getData());
-        bst.addGarbage();
+        //bst.addGarbage();
 
         System.out.println(bst.validateBST(bst.root));
-
-
+        System.out.println((int)Math.log10(1)/Math.log10(2));
     }
 }
