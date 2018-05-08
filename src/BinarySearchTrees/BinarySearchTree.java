@@ -1,5 +1,7 @@
 package BinarySearchTrees;
 
+import java.util.ArrayList;
+
 public class BinarySearchTree<T> {
     private class BSTnode<T>{
         private int key;
@@ -201,6 +203,36 @@ public class BinarySearchTree<T> {
         return true;
     }
 
+    /*Method: printSequences()
+      Summary: prints all acceptable arrays of inputs (from left to right) that could have assembled this
+      binary search tree.
+     */
+    public void printSequences(){
+        ArrayList<BSTnode> arr = new ArrayList<>();
+        printSequences(arr, this.root);
+    }
+
+    public void printSequences(ArrayList<BSTnode> arr, BSTnode root){
+        printSequences(arr, root.getLeftChild());
+        arr.add(root);
+        printSequences(arr, root.getRightChild());
+        arr.add(root);
+        arr.toString();
+    }
+
+    public boolean validateBST(BSTnode root){
+        if(root.getKey() > root.getLeftChild().getKey() && root.getKey() <= root.getRightChild().getKey()){
+            validateBST(root.getLeftChild());
+            validateBST(root.getRightChild());
+        } else if(root.getKey() > root.getLeftChild().getKey() && root.getRightChild() == null){
+            validateBST(root.getLeftChild());
+        } else if(root.getLeftChild() == null && root.getKey() <= root.getRightChild().getKey()){
+            validateBST(root.getRightChild());
+        } else if(root.getLeftChild() == null && root.getRightChild() == null){
+            return true;
+        }
+        return false;
+    }
     public static void main(String[] args) {
         BinarySearchTree bst = new BinarySearchTree();
         bst.addNode(5, "hi");
@@ -212,8 +244,8 @@ public class BinarySearchTree<T> {
         System.out.println(bst.findNode(5).getData());
         System.out.println(bst.findNode(15).getData());
 
-        bst.delNode(10);
-        System.out.println(bst.root.getRightChild().getKey());
+        System.out.println(bst.validateBST(bst.root));
+
 
     }
 }
