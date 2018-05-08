@@ -3,7 +3,7 @@ package BinarySearchTrees;
 import java.util.ArrayList;
 
 public class BinarySearchTree<T> {
-    private class BSTnode<T>{
+    public class BSTnode<T>{
         private int key;
         private T data;
         private BSTnode leftChild;
@@ -221,17 +221,31 @@ public class BinarySearchTree<T> {
     }
 
     public boolean validateBST(BSTnode root){
-        if(root.getKey() > root.getLeftChild().getKey() && root.getKey() <= root.getRightChild().getKey()){
-            validateBST(root.getLeftChild());
-            validateBST(root.getRightChild());
-        } else if(root.getKey() > root.getLeftChild().getKey() && root.getRightChild() == null){
-            validateBST(root.getLeftChild());
-        } else if(root.getLeftChild() == null && root.getKey() <= root.getRightChild().getKey()){
-            validateBST(root.getRightChild());
-        } else if(root.getLeftChild() == null && root.getRightChild() == null){
+        return validateBST(Integer.MIN_VALUE, Integer.MAX_VALUE, this.root);
+    }
+    public boolean validateBST(int min, int max, BSTnode relRoot){
+        if(relRoot == null){
+            //we've finished searching the bst
             return true;
         }
-        return false;
+
+        if(min >= relRoot.getKey() || relRoot.getKey() > max){
+            //do this to make sure recursion stops once relRoot is less than min or greater than max
+            return false;
+        }
+
+        if(!validateBST(min, relRoot.getKey(), relRoot.getLeftChild()) ||
+                !validateBST(relRoot.getKey(), max, relRoot.getRightChild())){
+            //do this so falses bubble up to the top
+            return false;
+        }
+        return true;
+    }
+
+    public void addGarbage(){
+        //this method is here to purposely ruin the BST structure to test if validate bst works
+        BSTnode<T> garbage = new BSTnode(10, "AS");
+        this.root.getLeftChild().setRightChild(garbage);
     }
     public static void main(String[] args) {
         BinarySearchTree bst = new BinarySearchTree();
@@ -243,6 +257,7 @@ public class BinarySearchTree<T> {
         System.out.println(bst.findNode(10).getData());
         System.out.println(bst.findNode(5).getData());
         System.out.println(bst.findNode(15).getData());
+        bst.addGarbage();
 
         System.out.println(bst.validateBST(bst.root));
 
