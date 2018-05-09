@@ -277,6 +277,24 @@ public class BinarySearchTree<T> {
         //???
         return depths;
     }
+
+    public static BinarySearchTree createBST(int[] orderedArr){
+        BinarySearchTree bst = new BinarySearchTree();
+        int start = 0;
+        int end = orderedArr.length - 1;
+        return createBST(orderedArr, start, end, bst);
+    }
+
+    public static BinarySearchTree createBST(int[] orderedArr, int start, int end, BinarySearchTree bst){
+        if(start <= end) {
+            int mid = (start + end) / 2;
+            bst.addNode(orderedArr[mid], "whatever");
+            createBST(orderedArr, start, mid - 1, bst);
+            createBST(orderedArr, mid + 1, end, bst);
+        }
+        return bst;
+
+    }
     public static void main(String[] args) {
         BinarySearchTree bst = new BinarySearchTree();
         bst.addNode(5, "hi");
@@ -297,5 +315,9 @@ public class BinarySearchTree<T> {
         System.out.println(depths.get(1).size());
         System.out.println(depths.get(2).size());
 
+        int[] orderedArr = {1, 2, 3, 4, 5, 6, 7, 8};
+        BinarySearchTree orderedBST = createBST(orderedArr);
+        System.out.println(orderedBST.root.getKey());
+        System.out.println(orderedBST.root.getLeftChild().getLeftChild().getKey());
     }
 }
