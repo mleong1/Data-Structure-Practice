@@ -1,6 +1,7 @@
 package BinarySearchTrees;
 
 import LinkLists.LinkedList;
+import LinkLists.LinkedList2;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -252,32 +253,34 @@ public class BinarySearchTree<T> {
         this.root.getLeftChild().setRightChild(garbage);
     }
 
-    public ArrayList<LinkedList> listDepths(BSTnode root){
-        ArrayList<LinkedList> depths = new ArrayList<>();
+    public ArrayList<LinkedList2> listDepths(BSTnode root){
+        ArrayList<LinkedList2> depths = new ArrayList<>();
         int depthSize = (int)(Math.log10(this.size())/Math.log10(2));
         for(int i = 0; i <= depthSize; i ++) {
-            LinkedList<BSTnode> level = new LinkedList<>();
+            LinkedList2<T> level = new LinkedList2<>();
             depths.add(level);
         }
         return listDepths(root, depths, 0);
     }
 
-    public ArrayList<LinkedList> listDepths(BSTnode root, ArrayList<LinkedList> depths, int level){
+    public ArrayList<LinkedList2> listDepths(BSTnode root, ArrayList<LinkedList2> depths, int level){
+        System.out.println("current level " + level );
         //base case 1 if we have run out of nodes
         if(root == null){
             return depths;
         }
         //add root to the first level
-        depths.get(level).add(root);
-        listDepths(root.getLeftChild(), depths, level ++);
-        listDepths(root.getRightChild(), depths, level ++);
+        depths.get(level).add(root.getData());
+        level++;
+        listDepths(root.getLeftChild(), depths, level);
+        listDepths(root.getRightChild(), depths, level);
         //???
         return depths;
     }
     public static void main(String[] args) {
         BinarySearchTree bst = new BinarySearchTree();
         bst.addNode(5, "hi");
-        bst.addNode(1, 5);
+        bst.addNode(1, "help");
         bst.addNode(10, 'c');
         bst.addNode(15, "YAHHH");
         bst.addNode(7, "asdf");
@@ -288,5 +291,11 @@ public class BinarySearchTree<T> {
 
         System.out.println(bst.validateBST(bst.root));
         System.out.println((int)Math.log10(1)/Math.log10(2));
+        ArrayList<LinkedList2> depths = bst.listDepths(bst.root);
+        System.out.println(depths.get(0).size());
+        System.out.println(depths.get(0).getElem(0));
+        System.out.println(depths.get(1).size());
+        System.out.println(depths.get(2).size());
+
     }
 }
