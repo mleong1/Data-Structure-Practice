@@ -1,6 +1,8 @@
 package RecursionProblems;
 
 
+import java.util.ArrayList;
+
 public class Recursion {
 
     public static int recursiveAdd(int[] nums, int length){
@@ -114,6 +116,35 @@ public class Recursion {
         return memo[total];
     }
 
+    public static ArrayList<String> permsNoDupes(String str){
+        ArrayList<String> perms = new ArrayList<>();
+        //add empty string
+        String initString = new String("");
+        perms.add(initString);
+        int addLetterIndex = 0;
+        return permsNoDupes(str, addLetterIndex, perms);
+    }
+
+    public static ArrayList<String> permsNoDupes(String str, int addLetterIndex, ArrayList<String> perms){
+        if(addLetterIndex == str.length() ) {
+            return perms;
+        }
+
+        char addLetter = str.charAt(addLetterIndex);
+        ArrayList<String> newPerms = new ArrayList<>();
+        System.out.println(perms.size());
+        for (String s: perms) {
+            for(int i = 0; i <= s.length(); i ++){
+                String newS = s.substring(0, i) + addLetter + s.substring(i);
+                System.out.println(newS);
+                newPerms.add(i, newS);
+            }
+        }
+
+        addLetterIndex++;
+        return permsNoDupes(str, addLetterIndex, newPerms);
+    }
+
     public static void main(String[] args) {
 
         int[] nums = {1, 5, 8, 11};
@@ -128,5 +159,11 @@ public class Recursion {
         System.out.println(isValidConcat(words, password));
         System.out.println(makeChange(25));
         System.out.println(makeChangeRec(25));
+
+        String str = "abcd";
+        ArrayList<String> perms = permsNoDupes(str);
+        System.out.println(perms.size());
+        System.out.println(perms.get(1));
+        System.out.println(perms.get(0));
     }
 }
