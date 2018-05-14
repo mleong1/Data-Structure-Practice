@@ -79,6 +79,7 @@ public class Recursion {
         //start at coin index 0 for quarter
         return makeChangeRec(total, 0, coinArr);
     }
+
     public static int makeChangeRec(int total, int coinInd, int[] coinArr){
         //this means you've hit pennies and there is only one way to make change with pennies.
         //pennies is at the last index
@@ -144,6 +145,27 @@ public class Recursion {
         addLetterIndex++;
         return permsNoDupes(str, addLetterIndex, newPerms);
     }
+
+    public String parenBit(String str) {
+        if(str.startsWith("(") && str.endsWith(")")){
+            return str;
+        }
+
+        if(!str.startsWith("(") && !str.endsWith(")")){
+            return parenBit(str.substring(1, str.length() - 1));
+        }
+
+        if(!str.startsWith("(") && str.endsWith(")")){
+            return parenBit(str.substring(1, str.length()));
+        }
+
+        if(str.startsWith("(") && !str.endsWith(")")){
+            return parenBit(str.substring(0, str.length() - 1));
+        }
+
+        return str;
+    }
+
 
     public static void main(String[] args) {
 
