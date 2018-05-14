@@ -166,6 +166,14 @@ public class Recursion {
         return str;
     }
 
+    public String allStar(String str) {
+        if(str.length() == 0 || str.length() == 1){
+            return str;
+        }
+
+        return allStar(str.substring(0, str.length() - 1)) + "*"
+                + str.charAt(str.length() - 1);
+    }
 
     public static void main(String[] args) {
 
@@ -187,5 +195,7 @@ public class Recursion {
         System.out.println(perms.size());
         System.out.println(perms.get(1));
         System.out.println(perms.get(0));
+        System.out.println(str.substring(0, str.length() - 1));
+        System.out.println(str + str.charAt(str.length() - 1));
     }
 }
