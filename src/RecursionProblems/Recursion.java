@@ -202,9 +202,6 @@ public class Recursion {
             }
         }
 
-        if(nums[start] > target){
-            return false;
-        }
         int newStart = start + 1;
         return groupSum(newStart, nums, target - nums[start]) || groupSum(newStart, nums, target);
     }
