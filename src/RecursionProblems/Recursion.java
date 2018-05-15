@@ -193,6 +193,21 @@ public class Recursion {
         return n * factorial(n - 1);
     }
 
+    public boolean groupSum(int start, int[] nums, int target) {
+        if(start >= nums.length){
+            if(target == 0){
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        if(nums[start] > target){
+            return false;
+        }
+        int newStart = start + 1;
+        return groupSum(newStart, nums, target - nums[start]) || groupSum(newStart, nums, target);
+    }
 
     public static void main(String[] args) {
 
