@@ -1,5 +1,8 @@
 package RecursionProblems;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 public class Board {
     private Square[][] board;
 
@@ -9,25 +12,58 @@ public class Board {
         for(int i = 0; i < 8; i ++){
             for(int j = 0; j < 8; j++){
                 Square s = new Square(i, j);
-                System.out.println(s.getCol() + " col : row " + s.getRow());
                 board[i][j] = s;
             }
         }
     }
 
-    public void setQueen(int row, int col){
+    public Square setQueen(int row, int col){
         Square queenSquare = board[row][col];
         queenSquare.setQueenHere(true);
         queenSquare.setQueenPlaceable(false);
+        return queenSquare;
     }
 
-    public void setVertical(Square queen){
-        int col = queen.getCol();
-        for(int i = 0; i < col; i ++){
+    public void setVertical(int col){
+        for(int i = 0; i < 8; i ++){
             board[i][col].setQueenPlaceable(false);
         }
     }
 
+    public void setHorizontal(int row){
+        for(int i = 0; i < 8; i ++){
+            board[row][i].setQueenPlaceable(false);
+        }
+    }
+
+    public void setDiagonal(int row, int col){
+        if(row != 0 || col != 0){
+            //todo need to account for when queen has diagonal behind
+        }
+
+        int c = col;
+        for(int r = row; r < 8 || c < 8; r ++){
+            board[r][c].setQueenPlaceable(false);
+            c ++;
+        }
+    }
+
+    public void printBoard(){
+        String[] boardOutput = new String[8];
+        for(int r = 0; r < 8; r++){
+            for(int c = 0; c < 8; c++){
+                if(board[r][c].isQueenHere()){
+                    boardOutput[c] = "Q";
+                } else if(!board[r][c].isQueenPlaceable()){
+                    boardOutput[c] = "U";
+                } else {
+                    //in this case this square is Available
+                    boardOutput[c] = "A";
+                }
+            }
+            System.out.println("This is row " + r + ": " + Arrays.toString(boardOutput));
+        }
+    }
 
 
 
@@ -85,8 +121,13 @@ public class Board {
 
     public static void main(String[] args) {
         Board b = new Board();
-        b.setQueen(0, 0);
+        Square queenSquare = b.setQueen(0, 0);
         System.out.println(b.board[0][0].isQueenHere());
         System.out.println(b.board[0][1].isQueenHere());
+        b.setVertical(queenSquare.getCol());
+        b.setHorizontal(queenSquare.getRow());
+        b.setDiagonal(queenSquare.getRow(), queenSquare.getCol());
+        System.out.println(b.board[7][7].isQueenPlaceable());
+        b.printBoard();
     }
 }
