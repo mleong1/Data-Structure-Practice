@@ -7,8 +7,9 @@ public class Board {
     public Board(){
         board = new Square[8][8];
         for(int i = 0; i < 8; i ++){
-            for(int j = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
                 Square s = new Square(i, j);
+                System.out.println(s.getCol() + " col : row " + s.getRow());
                 board[i][j] = s;
             }
         }
@@ -45,8 +46,8 @@ public class Board {
         public Square(int row, int col){
             this.row = row;
             this.col = col;
-            queenHere = false;
-            queenPlaceable = true;
+            this.queenHere = false;
+            this.queenPlaceable = true;
         }
 
         public int getRow() {
@@ -86,5 +87,6 @@ public class Board {
         Board b = new Board();
         b.setQueen(0, 0);
         System.out.println(b.board[0][0].isQueenHere());
+        System.out.println(b.board[0][1].isQueenHere());
     }
 }
