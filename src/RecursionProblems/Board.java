@@ -37,14 +37,31 @@ public class Board {
     }
 
     public void setDiagonal(int row, int col){
-        if(row != 0 || col != 0){
-            //todo need to account for when queen has diagonal behind
+        int leftDiagnolRow = row;
+        int leftDiagnolCol = col;
+
+        int rightDiagnolRow = row;
+        int rightDiagnolCol = col;
+
+        //todo need to account for when queen has diagonal behind actually all diagonals
+        while(leftDiagnolRow != 0 && leftDiagnolCol != 0){
+            leftDiagnolRow --;
+            leftDiagnolCol --;
+        }
+        System.out.println(leftDiagnolRow + ":" + leftDiagnolCol);
+
+        for(; leftDiagnolRow < 8 && leftDiagnolCol < 8; leftDiagnolRow ++, leftDiagnolCol++){
+            board[leftDiagnolRow][leftDiagnolCol].setQueenPlaceable(false);
         }
 
-        int c = col;
-        for(int r = row; r < 8 || c < 8; r ++){
-            board[r][c].setQueenPlaceable(false);
-            c ++;
+        while(rightDiagnolRow != 0 && rightDiagnolCol != 0){
+            rightDiagnolRow --;
+            rightDiagnolCol ++;
+        }
+        System.out.println(rightDiagnolRow + ":" + rightDiagnolCol);
+
+        for(; rightDiagnolRow >= 0 && rightDiagnolCol >= 0; rightDiagnolRow ++, rightDiagnolCol --){
+            board[rightDiagnolRow][rightDiagnolCol].setQueenPlaceable(false);
         }
     }
 
@@ -121,13 +138,14 @@ public class Board {
 
     public static void main(String[] args) {
         Board b = new Board();
-        Square queenSquare = b.setQueen(0, 0);
-        System.out.println(b.board[0][0].isQueenHere());
-        System.out.println(b.board[0][1].isQueenHere());
-        b.setVertical(queenSquare.getCol());
-        b.setHorizontal(queenSquare.getRow());
-        b.setDiagonal(queenSquare.getRow(), queenSquare.getCol());
-        System.out.println(b.board[7][7].isQueenPlaceable());
+        //Square queenSquare = b.setQueen(0, 0);
+        //b.setVertical(queenSquare.getCol());
+        //b.setHorizontal(queenSquare.getRow());
+        //b.setDiagonal(queenSquare.getRow(), queenSquare.getCol());
+        Square queenSquare2 = b.setQueen(1, 2);
+        b.setVertical(queenSquare2.getCol());
+        b.setHorizontal(queenSquare2.getRow());
+        b.setDiagonal(queenSquare2.getRow(), queenSquare2.getCol());
         b.printBoard();
     }
 }
