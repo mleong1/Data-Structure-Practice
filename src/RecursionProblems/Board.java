@@ -17,11 +17,10 @@ public class Board {
         }
     }
 
-    public Square setQueen(int row, int col){
+    public void setQueen(int row, int col){
         Square queenSquare = board[row][col];
         queenSquare.setQueenHere(true);
         queenSquare.setQueenPlaceable(false);
-        return queenSquare;
     }
 
     public void setVertical(int col){
@@ -54,13 +53,13 @@ public class Board {
             board[leftDiagnolRow][leftDiagnolCol].setQueenPlaceable(false);
         }
 
-        while(rightDiagnolRow != 0 && rightDiagnolCol != 0){
+        while(rightDiagnolRow != 0 && rightDiagnolCol != 7){
             rightDiagnolRow --;
             rightDiagnolCol ++;
         }
         System.out.println(rightDiagnolRow + ":" + rightDiagnolCol);
 
-        for(; rightDiagnolRow >= 0 && rightDiagnolCol >= 0; rightDiagnolRow ++, rightDiagnolCol --){
+        for(; rightDiagnolRow < 8 && rightDiagnolCol >= 0; rightDiagnolRow ++, rightDiagnolCol --){
             board[rightDiagnolRow][rightDiagnolCol].setQueenPlaceable(false);
         }
     }
@@ -82,6 +81,12 @@ public class Board {
         }
     }
 
+    public void setQueenAndUpdate(int row, int col){
+        setQueen(row, col);
+        setVertical(col);
+        setHorizontal(row);
+        setDiagonal(row, col);
+    }
 
 
 
@@ -138,14 +143,10 @@ public class Board {
 
     public static void main(String[] args) {
         Board b = new Board();
-        //Square queenSquare = b.setQueen(0, 0);
-        //b.setVertical(queenSquare.getCol());
-        //b.setHorizontal(queenSquare.getRow());
-        //b.setDiagonal(queenSquare.getRow(), queenSquare.getCol());
-        Square queenSquare2 = b.setQueen(1, 2);
-        b.setVertical(queenSquare2.getCol());
-        b.setHorizontal(queenSquare2.getRow());
-        b.setDiagonal(queenSquare2.getRow(), queenSquare2.getCol());
+        b.setQueenAndUpdate(0, 0);
+        b.setQueenAndUpdate(1, 2);
+        b.setQueenAndUpdate(2, 4);
+        b.setQueenAndUpdate(3, 6);
         b.printBoard();
     }
 }
