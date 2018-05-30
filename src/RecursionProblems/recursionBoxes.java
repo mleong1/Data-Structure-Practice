@@ -9,21 +9,26 @@ public class recursionBoxes {
 
     public int stackBoxes(ArrayList<Box> boxes){
         Collections.sort(boxes, new BoxComparator());
-        return stackBoxes(boxes, 0);
+        int maxStackHeight = 0;
+        for(int i = 0; i < boxes.size() - 1; i ++){
+            int stackHeight = stackBoxes(boxes, i);
+            maxStackHeight = Math.max(maxStackHeight, stackHeight);
+        }
+
+        return maxStackHeight;
+        //return stackBoxes(boxes, 0); //doing this gives you the highest stack with the first element as the base
     }
 
     public int stackBoxes(ArrayList<Box> boxes, int currBox){
         Box bottomBox = boxes.get(currBox);
-        //int height = bottomBox.getHeight();
+
         int maxHeight = 0;
 
         for(int i = currBox + 1; i <= boxes.size() - 1; i++){
             System.out.println(i);
             if(boxes.get(i).canBeAbove(bottomBox)){
-                //maxHeight = height + stackBoxes(boxes, i);
-                //System.out.println(height);
-                //System.out.println(maxHeight);
-                int height = stackBoxes(boxes, i); //stores highest stack height for one base
+
+                int height = stackBoxes(boxes, i); //stores highest stack height for bottombox
                 maxHeight = Math.max(maxHeight, height);
 
             }
@@ -68,7 +73,7 @@ public class recursionBoxes {
         Box box1 = new Box(5, 5, 4);
         Box box2 = new Box(10, 8, 9);
         Box box3 = new Box(15, 9, 10);
-        Box box4 = new Box(0, 10, 5);
+        Box box4 = new Box(20, 10, 5);
         ArrayList<Box> boxes = new ArrayList();
         boxes.add(box1);
         boxes.add(box2);
