@@ -13,32 +13,32 @@ public class recursionBoxes {
 
     public int stackBoxes(ArrayList<Box> boxes, int currBox, int h){
         //base case
-        if(currBox > boxes.size()){
+        System.out.println(currBox);
+        System.out.println(boxes.size() - 1);
+        System.out.println("This is h " + h);
+        if(currBox > boxes.size() - 1){
             return h;
         }
 
         Box bottomBox = boxes.get(currBox);
         boolean isBottom = true;
 
-        for (Box box: boxes) {
-            if(bottomBox.getWidth() > box.getWidth() && bottomBox.getDepth() > box.getDepth()){
+        for (int i = currBox + 1; i < boxes.size() - 1; i ++){
+            if(bottomBox.getWidth() > boxes.get(i).getWidth() && bottomBox.getDepth() > boxes.get(i).getDepth()){
 
             } else {
+
                 isBottom = false;
             }
         }
 
-        if(isBottom){
-            currBox ++;
+        if(isBottom) {
+            currBox++;
             h += bottomBox.getHeight();
-            stackBoxes(boxes, currBox, h);
+            return stackBoxes(boxes, currBox, h);
         }
 
-        if(h == 0){
-            return bottomBox.getHeight();
-        } else {
-            return h;
-        }
+        return h;
     }
 
     public ArrayList<Box> generateBoxes(){
