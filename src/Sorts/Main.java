@@ -1,5 +1,7 @@
 package Sorts;
 
+import java.util.Arrays;
+
 public class Main {
 
     /*method: swap()
@@ -243,7 +245,7 @@ public class Main {
     public static int partition2(int[] arr, int start, int end){
         int pivot = arr[end];
         int index = start - 1;
-        for(int i = start; i <= end - 1; i ++){
+        for(int i = start; i < end; i ++){
             if(arr[i] <= pivot){
                 index++;
                 swap(arr, index, i);
@@ -254,6 +256,38 @@ public class Main {
         return index + 1;
     }
 
+    /*method: sortedMerge()
+      summary: given two, sorted arrays, in which arrA has a buffer of space to hold elements in arrB, sortedMerge merges
+      arrA and arrB in sorted order. sortedMerge returns arrB fully sorted with elements from arrB.
+      params: sortedArrA, a sorted array with a large enough buffer to hold elements in arrB.
+              sortedArrB, a sorted array.
+     */
+    public static int[] sortedMerge(int[] sortedArrA, int[] sortedArrB){
+        //probably have to find the index of the last value in a
+        int lastEntryIndexA = (sortedArrA.length - sortedArrB.length) - 1;
+        int lastEntryIndexB = sortedArrB.length - 1;
+
+        //start from the end of arrA
+
+        for (int i = sortedArrA.length - 1; i > 0; i--) {
+            if(lastEntryIndexA >= 0 && lastEntryIndexB >= 0) {
+                if (sortedArrA[lastEntryIndexA] > sortedArrB[lastEntryIndexB]) {
+                    sortedArrA[i] = sortedArrA[lastEntryIndexA];
+                    sortedArrA[lastEntryIndexA] = 0;
+                    lastEntryIndexA--;
+                } else {
+                    sortedArrA[i] = sortedArrB[lastEntryIndexB];
+                    lastEntryIndexB--;
+                }
+            }
+        }
+
+        while(lastEntryIndexB >= 0){
+            sortedArrA[lastEntryIndexB] = sortedArrB[lastEntryIndexB];
+            lastEntryIndexB --;
+        }
+        return sortedArrA;
+    }
     public static void main(String[] args) {
 
         int[] a = {8, 7, 4, 5, 2, 6, 1};
@@ -266,6 +300,14 @@ public class Main {
         System.out.println(a[5]);
         System.out.println(a[6]);
         //mergeSort2(a);
-
+        int[] sortedArrA = {3, 5, 30, 0, 0, 0};
+        int[] sortedArrB = {30, 75, 90};
+        int[] mergedArr = sortedMerge(sortedArrA, sortedArrB);
+        System.out.println(mergedArr[0]);
+        System.out.println(mergedArr[1]);
+        System.out.println(mergedArr[2]);
+        System.out.println(mergedArr[3]);
+        System.out.println(mergedArr[4]);
+        System.out.println(mergedArr[5]);
     }
 }
